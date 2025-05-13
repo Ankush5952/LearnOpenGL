@@ -58,15 +58,9 @@ int main()
 //VERTEX DATA
 	//triangle
 	float vertices[] = {
-		-0.7f, 0.9f, 0.0f,
-		-0.7f, 0.8f, 0.0f,
-		-0.8f, 0.0f, 0.0f
-	};
-
-	float vertices3[] = {
-		-0.9f,0.9f,0.0f,
-		-0.9f,0.8f,0.0f,
-		-0.8f,0.8f,0.0f
+		-0.9f, 0.9f, 0.0f,
+		-0.9f, 0.8f, 0.0f,
+		-0.8f, 0.8f, 0.0f
 	};
 
 	//rectangle
@@ -83,6 +77,15 @@ int main()
 		1, 2, 3 //tri 2
 	};
 
+	//2 triangles
+	float vertices3[] = {
+			-0.9f, 0.9f, 0.0f,
+			-0.9f, 0.8f, 0.0f,
+			-0.8f, 0.8f, 0.0f,
+			-0.7f,0.9f,0.0f,
+			-0.7f,0.8f,0.0f,
+			-0.8f,0.8f,0.0f
+		};
 
 //GL PROCESSING
 	unsigned int VBO, VAO, EBO; //Vertex Buffer Object , Vertex Attribute Object , Element Buffer Object
@@ -93,11 +96,9 @@ int main()
 
 	glBindVertexArray(VAO);//bind the vertex attribute objects before binding buffers
 	
-	
 	glBindBuffer(GL_ARRAY_BUFFER, VBO); //Bind VBO to OPENGL's ARRAY buffer 
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices2), vertices2, GL_STATIC_DRAW); //Copies the vertex data to the buffer's memory
 	
-	//For multiple triangles
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO); //Bind EBO to Element Array Buffer
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW); //copy the indice data to buffer memory
 
@@ -171,8 +172,7 @@ int main()
 		glUseProgram(shaderProgram);
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-		
-		//glBindVertexArray(0);
+
 
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //Wireframe Mode
 
