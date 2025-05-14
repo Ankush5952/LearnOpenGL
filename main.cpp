@@ -13,15 +13,16 @@ const char* vertexShaderSource = "#version 330 core\n"
 	"layout (location = 0) in vec3 aPos;\n"
 	"void main()\n"
 	"{\n"
-	"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+	"   gl_Position = vec4(aPos, 1.0);\n"
 	"}\0";
 
 	//GLSL fragment shader
 	const char* fragmentShaderSource = "#version 330 core\n"
+		"uniform vec4 vertexclr;\n"
 		"out vec4 FragColor;\n"
 		"void main()\n"
 		"{\n"
-		"   FragColor = vec4(1.0f, 1.0f, 0.0f, 1.0f);\n"
+		"   FragColor = vertexclr;\n"
 		"}\n\0";
 
 
@@ -170,6 +171,13 @@ int main()
 
 		//Drawing
 		glUseProgram(shaderProgram);
+		float t = glfwGetTime();
+		//std::cout << t << "\n";
+		float t01 = (sin(t)+1)/2;
+		//std::cout << t01 << "\n";
+		int vertexClrIndex = glGetUniformLocation(shaderProgram, "vertexclr");
+		glUniform4f(vertexClrIndex, abs(2 * t01 - 1), t01, abs(1 - t01), 1.0f);
+
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
