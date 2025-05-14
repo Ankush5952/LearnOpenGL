@@ -11,18 +11,21 @@ const unsigned int height = 900; //Window Height
 	//GLSL vertex shader
 const char* vertexShaderSource = "#version 330 core\n"
 	"layout (location = 0) in vec3 aPos;\n"
+	"layout(location = 1) in vec3 clr;\n"
+	"out vec3 vertexclr;\n"
 	"void main()\n"
 	"{\n"
 	"   gl_Position = vec4(aPos, 1.0);\n"
+	"	vertexclr = clr;\n"
 	"}\0";
 
 	//GLSL fragment shader
 	const char* fragmentShaderSource = "#version 330 core\n"
-		"uniform vec4 vertexclr;\n"
+		"in vec3 vertexclr;\n"
 		"out vec4 FragColor;\n"
 		"void main()\n"
 		"{\n"
-		"   FragColor = vertexclr;\n"
+		"   FragColor = vec4(vertexclr,1.0f);\n"
 		"}\n\0";
 
 
@@ -59,53 +62,29 @@ int main()
 //VERTEX DATA
 	//triangle
 	float vertices[] = {
-		-0.9f, 0.9f, 0.0f,
-		-0.9f, 0.8f, 0.0f,
-		-0.8f, 0.8f, 0.0f
+		//pos //clr
+		0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
+		-0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f
 	};
-
-	//rectangle
-	float vertices2[] = {
-		//tri 1
-		0.5f, 0.5f, 0.0f, //top right
-		0.5f, -0.5f, 0.0f, //bottom right
-		-0.5f, -0.5f, 0.0f, //bottom left
-		-0.5f, 0.5f, 0.0f, //top left
-	};
-
-	unsigned int indices[] = {
-		0, 1, 3, //tri 1
-		1, 2, 3 //tri 2
-	};
-
-	//2 triangles
-	float vertices3[] = {
-			-0.9f, 0.9f, 0.0f,
-			-0.9f, 0.8f, 0.0f,
-			-0.8f, 0.8f, 0.0f,
-			-0.7f,0.9f,0.0f,
-			-0.7f,0.8f,0.0f,
-			-0.8f,0.8f,0.0f
-		};
 
 //GL PROCESSING
-	unsigned int VBO, VAO, EBO; //Vertex Buffer Object , Vertex Attribute Object , Element Buffer Object
+	unsigned int VBO, VAO; //Vertex Buffer Object , Vertex Attribute Object , Element Buffer Object
 
-	glGenBuffers(1, &EBO); //Generate a buffer at EBO's address
 	glGenVertexArrays(1, &VAO); //Generate Vertex Attribute Arrays
 	glGenBuffers(1, &VBO); //Generate a buffer at VBO's address
 
 	glBindVertexArray(VAO);//bind the vertex attribute objects before binding buffers
 	
 	glBindBuffer(GL_ARRAY_BUFFER, VBO); //Bind VBO to OPENGL's ARRAY buffer 
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices2), vertices2, GL_STATIC_DRAW); //Copies the vertex data to the buffer's memory
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); //Copies the vertex data to the buffer's memory
 	
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO); //Bind EBO to Element Array Buffer
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW); //copy the indice data to buffer memory
-
 	//glvertexAttribPointer(Pos of attrib to config, Size of attrib, Type of attrib, Normalization, Space b/w attribs, Offset);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0); //tell OPENGL how to interpret the vertex data
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0); //tell OPENGL how to interpret the vertex data
 	glEnableVertexAttribArray(0); //Enable the vertex attribute
+
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
 
 
 //VERTEX SHADER
@@ -171,16 +150,8 @@ int main()
 
 		//Drawing
 		glUseProgram(shaderProgram);
-		float t = glfwGetTime();
-		//std::cout << t << "\n";
-		float t01 = (sin(t)+1)/2;
-		//std::cout << t01 << "\n";
-		int vertexClrIndex = glGetUniformLocation(shaderProgram, "vertexclr");
-		glUniform4f(vertexClrIndex, abs(2 * t01 - 1), t01, abs(1 - t01), 1.0f);
-
 		glBindVertexArray(VAO);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
+		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //Wireframe Mode
 
@@ -193,7 +164,6 @@ int main()
 //END
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
-	glDeleteBuffers(1, &EBO);
 	glDeleteProgram(shaderProgram);
 
 	glfwTerminate(); //Clean up GLFW from memory after closing window
