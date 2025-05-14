@@ -1,6 +1,7 @@
 #include<glad/glad.h>
 #include<GLFW/glfw3.h>
 #include <iostream>
+#include<stb_image.h>
 #include "main.h"
 #include"Shader.h"
 
@@ -40,18 +41,19 @@ int main()
 	
 
 //VERTEX DATA
-	//triangle
+	//vertex coords = (x,y,z) ; similar to coordinate axis
 	float vertices[] = {
-		//pos //clr
-		0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 0.0f,
-		-0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f,
-		0.0f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f
+		//pos //clr //tex
+		0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, //bottom right
+		-0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, //bottom left
+		0.0f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.5f, 1.0f // top
 	};
+
 
 //SHADER
 	Shader shader("vertexshader.vs", "fragmentshader.fs");
 
-//GL PROCESSING
+//VERTEX PROCESSING
 	unsigned int VBO, VAO; //Vertex Buffer Object , Vertex Attribute Object , Element Buffer Object
 
 	glGenVertexArrays(1, &VAO); //Generate Vertex Attribute Arrays
@@ -63,11 +65,70 @@ int main()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); //Copies the vertex data to the buffer's memory
 	
 	//glvertexAttribPointer(Pos of attrib to config, Size of attrib, Type of attrib, Normalization, Space b/w attribs, Offset);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0); //tell OPENGL how to interpret the vertex data
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0); //position coordinates
 	glEnableVertexAttribArray(0); //Enable the vertex attribute
 
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float))); //color values
 	glEnableVertexAttribArray(1);
+
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float))); //texture coordinates
+	glEnableVertexAttribArray(2);
+
+
+//TEXTURE PROCESSING
+	//texture coords = (s,t,r) ; for 2D tex = (s,t); s> ,t^
+	unsigned int texture1, texture2;
+	//tex-1
+	glGenTextures(1, &texture1); //generate a texture
+	glBindTexture(GL_TEXTURE_2D, texture1); //bind the texture
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); //defining the 2D texture properties for s coordinate
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT); //defining the 2D texture properties for t coordinate
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); //defining the minimization filter method using mipmap
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); //defining the magnification filter method
+
+	int twidth, theight, nchannels;
+
+	unsigned char* tdata = stbi_load("wood.jpg", &twidth, &theight, &nchannels,0); //load the texture image
+	//check for error
+	if(tdata)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, twidth, theight, 0, GL_RGB, GL_UNSIGNED_BYTE, tdata); //generate texture from image
+		glGenerateMipmap(GL_TEXTURE_2D); //generate mipmap
+	}
+	else
+	{
+		std::cout << "FAILED TO LOAD TEXTURE IMAGE 1\n";
+	}
+
+	stbi_image_free(tdata); //free the image data after processing
+	//tex-2
+	glGenTextures(1, &texture2); //generate a texture
+	glBindTexture(GL_TEXTURE_2D, texture2); //bind the texture
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); //defining the 2D texture properties for s coordinate
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT); //defining the 2D texture properties for t coordinate
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); //defining the minimization filter method using mipmap
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); //defining the magnification filter method
+
+	stbi_set_flip_vertically_on_load(true);
+	tdata = stbi_load("smily.png", &twidth, &theight, &nchannels, 0); //load the texture image
+	//check for error
+	if(tdata)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, twidth, theight, 0, GL_RGBA, GL_UNSIGNED_BYTE, tdata); //generate texture from image
+		glGenerateMipmap(GL_TEXTURE_2D); //generate mipmap
+	}
+	else
+	{
+		std::cout << "FAILED TO LOAD TEXTURE IMAGE 2\n";
+	}
+
+	stbi_image_free(tdata); //free the image data after processing
+
+	shader.use();
+	shader.setInt("Texture1", 0);
+	shader.setInt("Texture2", 1);
 
 
 //RENDER LOOP
@@ -81,8 +142,15 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		//Drawing
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, texture1);
+
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, texture2);
+
 		shader.use();
 		shader.setFloat("offset", 0.0f);
+
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
