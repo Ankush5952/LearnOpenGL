@@ -102,17 +102,17 @@ public:
 		glUseProgram(ID);
 	}
 
-	void setBool(std::string& name, bool value)
+	void setBool(const std::string& name, bool value)
 	{
 		glUniform1i(glGetUniformLocation(ID, name.c_str()), (int)value);
 	}
 
-	void setInt(std::string& name, int value)
+	void setInt(const std::string& name, int value)
 	{
 		glUniform1i(glGetUniformLocation(ID, name.c_str()), value);
 	}
 
-	void setFloat(std::string& name, float value)
+	void setFloat(const std::string& name, float value)
 	{
 		glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
 	}

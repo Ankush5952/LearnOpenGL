@@ -48,7 +48,7 @@ int main()
 		0.0f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f
 	};
 
-//SHADERS
+//SHADER
 	Shader shader("vertexshader.vs", "fragmentshader.fs");
 
 //GL PROCESSING
@@ -82,6 +82,7 @@ int main()
 
 		//Drawing
 		shader.use();
+		shader.setFloat("offset", 0.0f);
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
