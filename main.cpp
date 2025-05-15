@@ -52,29 +52,43 @@ int main()
 		0.0f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.5f, 1.0f // top
 	};
 
+	float v2[] = {
+		-0.8f,0.8f,0.0f,1.0f,0.0f,0.0f,0.0f,1.0f, //top left
+		-0.8f,0.7f,0.0f,0.0f,1.0f,0.0f,0.0f,0.0f, //bottom left
+		-0.7f,0.7f,0.0f,0.0f,1.0f,1.0f,0.0f //bottom right
+	};
+
 
 //SHADER
 	Shader shader("vertexshader.vs", "fragmentshader.fs");
 
 //VERTEX PROCESSING
-	unsigned int VBO, VAO; //Vertex Buffer Object , Vertex Attribute Object , Element Buffer Object
+	unsigned int VBO[2], VAO[2]; //Vertex Buffer Object , Vertex Attribute Object , Element Buffer Object
 
-	glGenVertexArrays(1, &VAO); //Generate Vertex Attribute Arrays
-	glGenBuffers(1, &VBO); //Generate a buffer at VBO's address
+	glGenVertexArrays(2, VAO); //Generate Vertex Attribute Arrays
+	glGenBuffers(2, VBO); //Generate a buffer at VBO's address
 
-	glBindVertexArray(VAO);//bind the vertex attribute objects before binding buffers
-	
-	glBindBuffer(GL_ARRAY_BUFFER, VBO); //Bind VBO to OPENGL's ARRAY buffer 
+	//triangle1
+	glBindVertexArray(VAO[0]);//bind the vertex attribute objects before binding buffers
+	glBindBuffer(GL_ARRAY_BUFFER, VBO[0]); //Bind VBO to OPENGL's ARRAY buffer 
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); //Copies the vertex data to the buffer's memory
-	
 	//glvertexAttribPointer(Pos of attrib to config, Size of attrib, Type of attrib, Normalization, Space b/w attribs, Offset);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0); //position coordinates
 	glEnableVertexAttribArray(0); //Enable the vertex attribute
-
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float))); //color values
 	glEnableVertexAttribArray(1);
-
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float))); //texture coordinates
+	glEnableVertexAttribArray(2);
+
+	//triangle2
+	glBindVertexArray(VAO[1]);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO[1]); 
+	glBufferData(GL_ARRAY_BUFFER, sizeof(v2), v2, GL_STATIC_DRAW); 
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0); 
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float))); 
 	glEnableVertexAttribArray(2);
 
 
@@ -135,12 +149,8 @@ int main()
 
 
 //TRANSFORMATION
-	/*glm::mat4 trans = glm::mat4(1.0f);
-	trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-	trans = glm::scale(trans, glm::vec3(0.5f, 0.5f, 0.0f));*/
-
+	glm::mat4 trans = glm::mat4(1.0f);
 	unsigned int transformID = glGetUniformLocation(shader.ID, "transform");
-	//glUniformMatrix4fv(transformID, 1, GL_FALSE, glm::value_ptr(trans));
 
 
 //RENDER LOOP
@@ -163,12 +173,17 @@ int main()
 		shader.use();
 		shader.setFloat("offset", 0.0f);
 
-		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-
-		glm::mat4 trans = glm::mat4(1.0f);
+		glBindVertexArray(VAO[0]);
+		trans = glm::mat4(1.0f);
 		trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
-		glad_glUniformMatrix4fv(transformID, 1, GL_FALSE, glm::value_ptr(trans));
+		glUniformMatrix4fv(transformID, 1, GL_FALSE, glm::value_ptr(trans));
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+		
+		glBindVertexArray(VAO[1]);
+		trans = glm::mat4(0.1f);
+		trans = glm::scale(trans, glm::vec3((sin(glfwGetTime()) + 1) / 2)); 
+		glUniformMatrix4fv(transformID, 1, GL_FALSE, glm::value_ptr(trans));
+		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //Wireframe Mode
@@ -180,8 +195,8 @@ int main()
 
 
 //END
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
+	glDeleteVertexArrays(1, VAO);
+	glDeleteBuffers(1, VBO);
 
 	glfwTerminate(); //Clean up GLFW from memory after closing window
 	return 0;
