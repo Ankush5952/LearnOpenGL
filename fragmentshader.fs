@@ -10,5 +10,5 @@ out vec4 fragclr;
 
 void main()
 {
-	fragclr = mix(texture(Texture,texCoord), texture(Texture2,vec2(1-texCoord.x, texCoord.y)),0.5)*vec4(vertexclr,1.0);
+	fragclr = mix(texture(Texture,texCoord), texture(Texture2,vec2(1-texCoord.x, texCoord.y)),0.2)*vec4(vertexclr,1.0);
 }

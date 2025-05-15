@@ -2,6 +2,9 @@
 #include<GLFW/glfw3.h>
 #include <iostream>
 #include<stb_image.h>
+#include<glm/glm.hpp>
+#include<glm/gtc/matrix_transform.hpp>
+#include<glm/gtc/type_ptr.hpp>
 #include "main.h"
 #include"Shader.h"
 
@@ -131,6 +134,15 @@ int main()
 	shader.setInt("Texture2", 1);
 
 
+//TRANSFORMATION
+	glm::mat4 trans = glm::mat4(1.0f);
+	trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	trans = glm::scale(trans, glm::vec3(0.5f, 0.5f, 0.0f));
+
+	unsigned int transformID = glGetUniformLocation(shader.ID, "transform");
+	glUniformMatrix4fv(transformID, 1, GL_FALSE, glm::value_ptr(trans));
+
+
 //RENDER LOOP
 	while (!glfwWindowShouldClose(window)) //Check for close window call
 	{
@@ -153,6 +165,7 @@ int main()
 
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
+
 
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //Wireframe Mode
 
