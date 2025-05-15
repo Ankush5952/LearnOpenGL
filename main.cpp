@@ -135,12 +135,12 @@ int main()
 
 
 //TRANSFORMATION
-	glm::mat4 trans = glm::mat4(1.0f);
+	/*glm::mat4 trans = glm::mat4(1.0f);
 	trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-	trans = glm::scale(trans, glm::vec3(0.5f, 0.5f, 0.0f));
+	trans = glm::scale(trans, glm::vec3(0.5f, 0.5f, 0.0f));*/
 
 	unsigned int transformID = glGetUniformLocation(shader.ID, "transform");
-	glUniformMatrix4fv(transformID, 1, GL_FALSE, glm::value_ptr(trans));
+	//glUniformMatrix4fv(transformID, 1, GL_FALSE, glm::value_ptr(trans));
 
 
 //RENDER LOOP
@@ -165,6 +165,10 @@ int main()
 
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
+
+		glm::mat4 trans = glm::mat4(1.0f);
+		trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+		glad_glUniformMatrix4fv(transformID, 1, GL_FALSE, glm::value_ptr(trans));
 
 
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //Wireframe Mode
