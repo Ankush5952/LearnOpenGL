@@ -67,8 +67,8 @@ int main()
 #pragma region VERTEX PROCESSING
 	unsigned int VBO, VAO; //Vertex Buffer Object , Vertex Attribute Object , Element Buffer Object
 
-	glGenVertexArrays(2, &VAO); //Generate Vertex Attribute Arrays
-	glGenBuffers(2, &VBO); //Generate a buffer at VBO's address
+	glGenVertexArrays(1, &VAO); //Generate Vertex Attribute Arrays
+	glGenBuffers(1, &VBO); //Generate a buffer at VBO's address
 
 	//triangle1
 	glBindVertexArray(VAO);//bind the vertex attribute objects before binding buffers
