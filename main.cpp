@@ -51,10 +51,61 @@ int main()
 #pragma region VERTEX DATA
 	//vertex coords = (x,y,z) ; similar to coordinate axis
 	float vertices[] = {
-		//pos //clr //tex
-		0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, //bottom right
-		-0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, //bottom left
-		0.0f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.5f, 1.0f // top
+		//pos //tex
+		0.5f, -0.5f, 0.0f, 1.0f, 0.0f, //bottom right
+		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, //bottom left
+		0.0f, 0.5f, 0.0f, 0.5f, 1.0f // top
+	};
+
+	//cube
+	float v2[] = {
+		-0.3f, -0.3f, -0.3f, 0.0f, 0.0f,
+		0.3f, -0.3f, -0.3f, 1.0f, 0.0f,
+		0.3f, 0.3f, -0.3f, 1.0f, 1.0f,
+
+		0.3f, 0.3f, -0.3f, 1.0f, 1.0f,
+		-0.3f, 0.3f, -0.3f, 0.0f, 1.0f,
+		-0.3f, -0.3f, -0.3f, 0.0f, 0.0f,
+
+		-0.3f, -0.3f, 0.3f, 0.0f, 0.0f,
+		0.3f, -0.3f, 0.3f, 1.0f, 0.0f,
+		0.3f, 0.3f, 0.3f, 1.0f, 1.0f,
+
+		0.3f, 0.3f, 0.3f, 1.0f, 1.0f,
+		-0.3f, 0.3f, 0.3f, 0.0f, 1.0f,
+		-0.3f, -0.3f, 0.3f, 0.0f, 0.0f,
+
+		-0.3f, 0.3f, 0.3f, 1.0f, 0.0f,
+		-0.3f, 0.3f, -0.3f, 1.0f, 1.0f,
+		-0.3f, -0.3f, -0.3f, 0.0f, 1.0f,
+
+		-0.3f, -0.3f, -0.3f, 0.0f, 1.0f,
+		-0.3f, -0.3f, 0.3f, 0.0f, 0.0f,
+		-0.3f, 0.3f, 0.3f, 1.0f, 0.0f,
+
+		0.3f, 0.3f, 0.3f, 1.0f, 0.0f,
+		0.3f, 0.3f, -0.3f, 1.0f, 1.0f,
+		0.3f, -0.3f, -0.3f, 0.0f, 1.0f,
+
+		0.3f, -0.3f, -0.3f, 0.0f, 1.0f,
+		0.3f, -0.3f, 0.3f, 0.0f, 0.0f,
+		0.3f, 0.3f, 0.3f, 1.0f, 0.0f,
+
+		-0.3f, -0.3f, -0.3f, 0.0f, 1.0f,
+		0.3f, -0.3f, -0.3f, 1.0f, 1.0f,
+		0.3f, -0.3f, 0.3f, 1.0f, 0.0f,
+
+		0.3f, -0.3f, 0.3f, 1.0f, 0.0f,
+		-0.3f, -0.3f, 0.3f, 0.0f, 0.0f,
+		-0.3f, -0.3f, -0.3f, 0.0f, 1.0f,
+
+		-0.3f, 0.3f, -0.3f, 0.0f, 1.0f,
+		0.3f, 0.3f, -0.3f, 1.0f, 1.0f,
+		0.3f, 0.3f, 0.3f, 1.0f, 0.0f,
+
+		0.3f, 0.3f, 0.3f, 1.0f, 0.0f,
+		-0.3f, 0.3f, 0.3f, 0.0f, 0.0f,
+		-0.3f, 0.3f, -0.3f, 0.0f, 1.0f
 	};
 #pragma endregion
 
@@ -70,17 +121,16 @@ int main()
 	glGenVertexArrays(1, &VAO); //Generate Vertex Attribute Arrays
 	glGenBuffers(1, &VBO); //Generate a buffer at VBO's address
 
-	//triangle1
 	glBindVertexArray(VAO);//bind the vertex attribute objects before binding buffers
 	glBindBuffer(GL_ARRAY_BUFFER, VBO); //Bind VBO to OPENGL's ARRAY buffer 
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); //Copies the vertex data to the buffer's memory
+	glBufferData(GL_ARRAY_BUFFER, sizeof(v2), v2, GL_STATIC_DRAW); //Copies the vertex data to the buffer's memory
+
 	//glvertexAttribPointer(Pos of attrib to config, Size of attrib, Type of attrib, Normalization, Space b/w attribs, Offset);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0); //position coordinates
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0); //position coordinates
 	glEnableVertexAttribArray(0); //Enable the vertex attribute
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float))); //color values
+
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float))); //texture coordinates
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float))); //texture coordinates
-	glEnableVertexAttribArray(2);
 #pragma endregion
 
 //TEXTURE PROCESSING
@@ -146,6 +196,21 @@ int main()
 	unsigned int transformID = glGetUniformLocation(shader.ID, "transform");
 #pragma endregion
 
+//COORDINATE TRANSFORMATION MATRICES
+#pragma region COORDINATE TRANSFORMATION MATRICES
+	//model matrix
+	glm::mat4 model = glm::mat4(1.0f);
+	model = glm::rotate(model,glm::radians(-80.0f),glm::vec3(1.0f,0.0f,0.0f));
+	//view matrix
+	glm::mat4 view = glm::mat4(1.0f);
+	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+
+	//projection matrix
+	glm::mat4 proj;
+	proj = glm::perspective(glm::radians(45.0f), (float)width / height, 0.1f, 100.0f); //perspective projection for realistic 3D
+#pragma endregion
+
+	glEnable(GL_DEPTH_TEST);
 //RENDER LOOP
 	while (!glfwWindowShouldClose(window)) //Check for close window call
 	{
@@ -153,8 +218,8 @@ int main()
 		ProcessInput(window);
 
 		//Rendering
-		glClearColor(0.5f, 0.6f, 0.7f, 1); //bg clr
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClearColor(0.3f, 0.3f, 0.3f, 1); //bg clr
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		//Drawing
 		glActiveTexture(GL_TEXTURE0);
@@ -168,10 +233,15 @@ int main()
 
 		//BIND -> TRANSFORM -> DRAW
 		glBindVertexArray(VAO);
-		trans = glm::mat4(1.0f);
-		trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
-		glUniformMatrix4fv(transformID, 1, GL_FALSE, glm::value_ptr(trans));
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+
+		model = glm::mat4(1.0f);
+		model = glm::rotate(model, glm::radians((float)glfwGetTime()*3), glm::vec3(1.0f, 1.0f, 0.0f));
+
+		shader.setMat4("model", model);
+		shader.setMat4("view", view);
+		shader.setMat4("proj", proj);
+
+		glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //Wireframe Mode
 
