@@ -107,6 +107,14 @@ int main()
 		-0.3f, 0.3f, 0.3f, 0.0f, 0.0f,
 		-0.3f, 0.3f, -0.3f, 0.0f, 1.0f
 	};
+
+	glm::vec3 cubePos[] = {
+		glm::vec3(0.0f,0.0f,0.0f),
+		glm::vec3(1.0f,1.0f,-2.0f),
+		glm::vec3(-1.0f,1.0f,-2.0f),
+		glm::vec3(1.5f,-1.5f,-5.0f),
+		glm::vec3(-1.5f,-2.0f,-7.0f),
+	};
 #pragma endregion
 
 //SHADER
@@ -165,8 +173,8 @@ int main()
 	glGenTextures(1, &texture2); //generate a texture
 	glBindTexture(GL_TEXTURE_2D, texture2); //bind the texture
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); //defining the 2D texture properties for s coordinate
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT); //defining the 2D texture properties for t coordinate
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER); //defining the 2D texture properties for s coordinate
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER); //defining the 2D texture properties for t coordinate
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); //defining the minimization filter method using mipmap
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); //defining the magnification filter method
 
@@ -200,7 +208,7 @@ int main()
 #pragma region COORDINATE TRANSFORMATION MATRICES
 	//model matrix
 	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::rotate(model,glm::radians(-80.0f),glm::vec3(1.0f,0.0f,0.0f));
+	//model = glm::rotate(model,glm::radians(-80.0f),glm::vec3(1.0f,0.0f,0.0f));
 	//view matrix
 	glm::mat4 view = glm::mat4(1.0f);
 	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
@@ -234,14 +242,21 @@ int main()
 		//BIND -> TRANSFORM -> DRAW
 		glBindVertexArray(VAO);
 
-		model = glm::mat4(1.0f);
-		model = glm::rotate(model, glm::radians((float)glfwGetTime()*3), glm::vec3(1.0f, 1.0f, 0.0f));
+		for (unsigned int i = 0; i < 5; i++)
+		{
+			model = glm::mat4(1.0f);
+			model = glm::translate(model, cubePos[i]);
+			float angle = i * 20 + 10;
+			model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 1.0f, 0.0f));
+			shader.setMat4("model", model);
+			glDrawArrays(GL_TRIANGLES, 0, 36);
+		}
 
-		shader.setMat4("model", model);
+		//shader.setMat4("model", model);
 		shader.setMat4("view", view);
 		shader.setMat4("proj", proj);
 
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		//glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //Wireframe Mode
 
