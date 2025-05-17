@@ -7,6 +7,7 @@
 #include<glm/glm.hpp>
 #include<glm/gtc/matrix_transform.hpp>
 #include<glm/gtc/type_ptr.hpp>
+#include"Camera.h"
 
 const unsigned int width = 1600; //Window Width
 const unsigned int height = 900; //Window Height
@@ -19,11 +20,11 @@ unsigned int texture2;
 
 glm::mat4 trans;
 
-float fov;
-
 glm::mat4 model;
 glm::mat4 view;
 glm::mat4 proj;
+
+Camera cam;
 
 glm::vec3 camPos;
 glm::vec3 camUp;
@@ -32,9 +33,6 @@ glm::vec3 camDir;
 
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
-
-float yaw = -90.0f;
-float pitch = 0.0f;
 
 float lastX = width / 2;
 float lastY = height / 2;
@@ -60,53 +58,36 @@ void cursor_callback(GLFWwindow* window, double xPos, double yPos)
 	lastX = xPos;
 	lastY = yPos;
 
-	//set some sensitivity to the mouse movement
-	const float sensitivity = 0.05f;
-	xoffset *= sensitivity;
-	yoffset *= sensitivity;
+	cam.ProcessMouseMovement(xoffset, yoffset);
 
-	//2. add offset to yaw and pitch
-	yaw += xoffset;
-	pitch += yoffset;
-
-	//3.add constraints to pitch
-	if (pitch > 89.0f) { pitch = 89.0f; }
-	if (pitch < -89.0f) { pitch = -89.0f; }
-
-	//4.calculate the dir vector
-	camDir.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-	camDir.y = -sin(glm::radians(pitch));
-	camDir.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-	camFront = glm::normalize(camDir);
 }
 
 void scroll_callback(GLFWwindow* window, double xOffset, double yOffset)
 {
-	fov -= (float)yOffset;
-	if (fov < 1.0f) { fov = 1.0f; }
-	if (fov > 45.0f) { fov = 45.0f; }
+	cam.ProcessScroll(yOffset);
 }
 
 void ProcessInput(GLFWwindow* window) //Input Manager
 {
-	const float camSpeed = 2.5f * deltaTime;
+	//Movement
 	if (glfwGetKey(window,GLFW_KEY_W) == GLFW_PRESS)
 	{
-		camPos += camSpeed * camFront; //move in front dir
+		cam.ProcessKeyboard(FORWARD, deltaTime);
 	}
 	if (glfwGetKey(window,GLFW_KEY_S) == GLFW_PRESS)
 	{
-		camPos -= camSpeed * camFront; //move in front dir
+		cam.ProcessKeyboard(BACKWARD, deltaTime);
 	}
 	if (glfwGetKey(window,GLFW_KEY_A) == GLFW_PRESS)
 	{
-		camPos -= camSpeed * glm::normalize(glm::cross(camFront,camUp)); //move in front dir
+		cam.ProcessKeyboard(LEFT, deltaTime);
 	}
 	if (glfwGetKey(window,GLFW_KEY_D) == GLFW_PRESS)
 	{
-		camPos += camSpeed * glm::normalize(glm::cross(camFront, camUp));
+		cam.ProcessKeyboard(RIGHT, deltaTime);
 	}
 
+	//Exit
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 	{
 		glfwSetWindowShouldClose(window, true);

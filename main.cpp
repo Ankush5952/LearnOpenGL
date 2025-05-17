@@ -204,8 +204,7 @@ int main()
 	view = glm::mat4(1.0f);
 
 	//projection matrix
-	fov = 45.0f;
-	proj = glm::perspective(glm::radians(fov), (float)width / height, 0.1f, 100.0f); //perspective projection for realistic 3D
+	proj = glm::perspective(glm::radians(cam.zoom), (float)width / height, 0.1f, 100.0f); //perspective projection for realistic 3D
 #pragma endregion
 
 //CAMERA
@@ -234,7 +233,7 @@ int main()
 		ProcessInput(window);
 
 		//Zoom
-		proj = glm::perspective(glm::radians(fov), (float)width / height, 0.1f, 100.0f);
+		proj = glm::perspective(glm::radians(cam.zoom), (float)width / height, 0.1f, 100.0f);
 
 		//Rendering
 		glClearColor(0.3f, 0.3f, 0.3f, 1); //bg clr
@@ -261,7 +260,7 @@ int main()
 			shader.setMat4("model", model);
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
-		view = glm::lookAt(camPos, camPos + camFront, camUp);
+		view = cam.getViewMatrix();
 
 		shader.setMat4("view", view);
 		shader.setMat4("proj", proj);
