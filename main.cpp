@@ -126,7 +126,6 @@ int main()
 
 //VERTEX PROCESSING
 #pragma region VERTEX PROCESSING
-	unsigned int VBO, VAO; //Vertex Buffer Object , Vertex Attribute Object , Element Buffer Object
 
 	glGenVertexArrays(1, &VAO); //Generate Vertex Attribute Arrays
 	glGenBuffers(1, &VBO); //Generate a buffer at VBO's address
@@ -146,7 +145,6 @@ int main()
 //TEXTURE PROCESSING
 #pragma region TEXTURE PROCESSING
 	//texture coords = (s,t,r) ; for 2D tex = (s,t); s> ,t^
-	unsigned int texture1, texture2;
 	//tex-1
 	glGenTextures(1, &texture1); //generate a texture
 	glBindTexture(GL_TEXTURE_2D, texture1); //bind the texture
@@ -202,39 +200,40 @@ int main()
 
 //TRANSFORMATION
 #pragma region STATIC TRANSFORM
-	glm::mat4 trans = glm::mat4(1.0f);
+	trans = glm::mat4(1.0f);
 	unsigned int transformID = glGetUniformLocation(shader.ID, "transform");
 #pragma endregion
 
 //COORDINATE TRANSFORMATION MATRICES
 #pragma region COORDINATE TRANSFORMATION MATRICES
 	//model matrix
-	glm::mat4 model = glm::mat4(1.0f);
-	//model = glm::rotate(model,glm::radians(-80.0f),glm::vec3(1.0f,0.0f,0.0f));
+	model = glm::mat4(1.0f);
+
 	//view matrix
-	glm::mat4 view = glm::mat4(1.0f);
-	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+	view = glm::mat4(1.0f);
 
 	//projection matrix
-	glm::mat4 proj;
 	proj = glm::perspective(glm::radians(45.0f), (float)width / height, 0.1f, 100.0f); //perspective projection for realistic 3D
 #pragma endregion
 
 //CAMERA
 #pragma region CAMERA
-	glm::vec3 camPos = glm::vec3(0.0f, 0.0f, 3.0f); //position of camera
+	camPos = glm::vec3(0.0f, 0.0f, 3.0f); //position of camera
 
-	glm::vec3 camTarget = glm::vec3(0.0f, 0.0f, 0.0f); //target coordinate
-	glm::vec3 camDir = glm::normalize(camPos - camTarget); //resulting vector points opposite to what we want to ghet +z coord
+	camTarget = glm::vec3(0.0f, 0.0f, 0.0f); //target coordinate
+	camFront = glm::vec3(0.0f, 0.0f, -1.0f); //Front facing vector of camera
+	camDir = glm::normalize(camPos - camTarget); //resulting vector points opposite to what we want to ghet +z coord
 
 	//Right axis
-	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
-	glm::vec3 camRight = glm::normalize(glm::cross(up, camDir)); 
+	up = glm::vec3(0.0f, 1.0f, 0.0f);
+	camRight = glm::normalize(glm::cross(up, camDir)); 
 
 	//Up axis
-	glm::vec3 camUp = glm::normalize(glm::cross(camDir, camRight));
+	camUp = glm::normalize(glm::cross(camDir, camRight));
 
-	//view = glm::lookAt(camPos, camTarget, up);
+	//view matrix
+	view = glm::lookAt(camPos, camPos + camFront, up);
+
 #pragma endregion
 
 //RENDER LOOP
@@ -255,7 +254,6 @@ int main()
 		glBindTexture(GL_TEXTURE_2D, texture2);
 
 		shader.use();
-		shader.setFloat("offset", 0.0f);
 
 		//BIND -> TRANSFORM -> DRAW
 		glBindVertexArray(VAO);
@@ -270,16 +268,8 @@ int main()
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
 
-		const float rad = 10.0f;
-		float camX = sin(glfwGetTime()) * rad;
-		float camZ = sin(glfwGetTime()) * rad;
-		view = glm::lookAt(glm::vec3(camX, 0.0f, camZ), camTarget, up);
-
-		//shader.setMat4("model", model);
 		shader.setMat4("view", view);
 		shader.setMat4("proj", proj);
-
-		//glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //Wireframe Mode
 
