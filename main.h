@@ -13,12 +13,11 @@ glm::mat4 view;
 glm::mat4 proj;
 
 glm::vec3 camPos;
-glm::vec3 camTarget;
-glm::vec3 camDir;
 glm::vec3 camUp;
-glm::vec3 camRight;
-glm::vec3 up;
 glm::vec3 camFront;
+
+float deltaTime = 0.0f;
+float lastFrame = 0.0f;
 
 
 void framebuffer_size_callback(GLFWwindow* window, int w, int h) //Buffer callback function for window resize
@@ -28,6 +27,24 @@ void framebuffer_size_callback(GLFWwindow* window, int w, int h) //Buffer callba
 
 void ProcessInput(GLFWwindow* window) //Input Manager
 {
+	const float camSpeed = 2.5f * deltaTime;
+	if (glfwGetKey(window,GLFW_KEY_W) == GLFW_PRESS)
+	{
+		camPos += camSpeed * camFront; //move in front dir
+	}
+	if (glfwGetKey(window,GLFW_KEY_S) == GLFW_PRESS)
+	{
+		camPos -= camSpeed * camFront; //move in front dir
+	}
+	if (glfwGetKey(window,GLFW_KEY_A) == GLFW_PRESS)
+	{
+		camPos -= camSpeed * glm::normalize(glm::cross(camFront,camUp)); //move in front dir
+	}
+	if (glfwGetKey(window,GLFW_KEY_D) == GLFW_PRESS)
+	{
+		camPos += camSpeed * glm::normalize(glm::cross(camFront, camUp));
+	}
+
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 	{
 		glfwSetWindowShouldClose(window, true);

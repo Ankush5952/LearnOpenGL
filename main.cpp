@@ -220,25 +220,24 @@ int main()
 #pragma region CAMERA
 	camPos = glm::vec3(0.0f, 0.0f, 3.0f); //position of camera
 
-	camTarget = glm::vec3(0.0f, 0.0f, 0.0f); //target coordinate
 	camFront = glm::vec3(0.0f, 0.0f, -1.0f); //Front facing vector of camera
-	camDir = glm::normalize(camPos - camTarget); //resulting vector points opposite to what we want to ghet +z coord
-
-	//Right axis
-	up = glm::vec3(0.0f, 1.0f, 0.0f);
-	camRight = glm::normalize(glm::cross(up, camDir)); 
 
 	//Up axis
-	camUp = glm::normalize(glm::cross(camDir, camRight));
+	camUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
 	//view matrix
-	view = glm::lookAt(camPos, camPos + camFront, up);
+	view = glm::lookAt(camPos, camPos + camFront, camUp);
 
 #pragma endregion
 
 //RENDER LOOP
 	while (!glfwWindowShouldClose(window)) //Check for close window call
 	{
+		//Time
+		float currentFrame = glfwGetTime();
+		deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
+
 		//Input
 		ProcessInput(window);
 
@@ -267,6 +266,7 @@ int main()
 			shader.setMat4("model", model);
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
+		view = glm::lookAt(camPos, camPos + camFront, camUp);
 
 		shader.setMat4("view", view);
 		shader.setMat4("proj", proj);
