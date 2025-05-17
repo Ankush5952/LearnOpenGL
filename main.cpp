@@ -45,6 +45,8 @@ int main()
 	glViewport(0, 0, width, height); //Set the window coords for OPENGL
 
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback); //Make a callback to buffer every time window is resized
+
+	glEnable(GL_DEPTH_TEST); //prevent z-buffer by enabling depth test
 #pragma endregion
 
 //VERTEX DATA
@@ -218,7 +220,23 @@ int main()
 	proj = glm::perspective(glm::radians(45.0f), (float)width / height, 0.1f, 100.0f); //perspective projection for realistic 3D
 #pragma endregion
 
-	glEnable(GL_DEPTH_TEST);
+//CAMERA
+#pragma region CAMERA
+	glm::vec3 camPos = glm::vec3(0.0f, 0.0f, 3.0f); //position of camera
+
+	glm::vec3 camTarget = glm::vec3(0.0f, 0.0f, 0.0f); //target coordinate
+	glm::vec3 camDir = glm::normalize(camPos - camTarget); //resulting vector points opposite to what we want to ghet +z coord
+
+	//Right axis
+	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
+	glm::vec3 camRight = glm::normalize(glm::cross(up, camDir)); 
+
+	//Up axis
+	glm::vec3 camUp = glm::normalize(glm::cross(camDir, camRight));
+
+	//view = glm::lookAt(camPos, camTarget, up);
+#pragma endregion
+
 //RENDER LOOP
 	while (!glfwWindowShouldClose(window)) //Check for close window call
 	{
@@ -251,6 +269,11 @@ int main()
 			shader.setMat4("model", model);
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
+
+		const float rad = 10.0f;
+		float camX = sin(glfwGetTime()) * rad;
+		float camZ = sin(glfwGetTime()) * rad;
+		view = glm::lookAt(glm::vec3(camX, 0.0f, camZ), camTarget, up);
 
 		//shader.setMat4("model", model);
 		shader.setMat4("view", view);
