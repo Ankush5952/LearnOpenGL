@@ -1,18 +1,5 @@
-#include<glad/glad.h>
-#include<GLFW/glfw3.h>
-#include <iostream>
-#include<stb_image.h>
-#include<glm/glm.hpp>
-#include<glm/gtc/matrix_transform.hpp>
-#include<glm/gtc/type_ptr.hpp>
 #include "main.h"
 #include"Shader.h"
-
-//STATIC VARIABLES
-#pragma region STATIC VARIABLES
-const unsigned int width = 1600; //Window Width
-const unsigned int height = 900; //Window Height
-#pragma endregion
 
 
 int main()
@@ -45,9 +32,13 @@ int main()
 	glViewport(0, 0, width, height); //Set the window coords for OPENGL
 
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback); //Make a callback to buffer every time window is resized
+	glfwSetCursorPosCallback(window, cursor_callback);
+	glfwSetScrollCallback(window, scroll_callback);
 
 	glEnable(GL_DEPTH_TEST); //prevent z-buffer by enabling depth test
 #pragma endregion
+
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 //VERTEX DATA
 #pragma region VERTEX DATA
@@ -213,7 +204,8 @@ int main()
 	view = glm::mat4(1.0f);
 
 	//projection matrix
-	proj = glm::perspective(glm::radians(45.0f), (float)width / height, 0.1f, 100.0f); //perspective projection for realistic 3D
+	fov = 45.0f;
+	proj = glm::perspective(glm::radians(fov), (float)width / height, 0.1f, 100.0f); //perspective projection for realistic 3D
 #pragma endregion
 
 //CAMERA
@@ -240,6 +232,9 @@ int main()
 
 		//Input
 		ProcessInput(window);
+
+		//Zoom
+		proj = glm::perspective(glm::radians(fov), (float)width / height, 0.1f, 100.0f);
 
 		//Rendering
 		glClearColor(0.3f, 0.3f, 0.3f, 1); //bg clr
