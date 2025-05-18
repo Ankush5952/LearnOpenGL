@@ -30,15 +30,18 @@ int main()
 	}
 
 	glViewport(0, 0, width, height); //Set the window coords for OPENGL
+#pragma endregion
 
+//WINDOW SETTINGS
+#pragma region WINDOW SETTINGS
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback); //Make a callback to buffer every time window is resized
 	glfwSetCursorPosCallback(window, cursor_callback);
 	glfwSetScrollCallback(window, scroll_callback);
 
 	glEnable(GL_DEPTH_TEST); //prevent z-buffer by enabling depth test
-#pragma endregion
 
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); //trapping cursor within window bounds and making it invisible
+#pragma endregion
 
 //VERTEX DATA
 #pragma region VERTEX DATA
