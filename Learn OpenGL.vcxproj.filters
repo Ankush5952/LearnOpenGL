@@ -43,5 +43,11 @@
     <None Include="fragmentshader.fs">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="light.fs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="light.vs">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

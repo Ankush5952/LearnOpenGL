@@ -43,62 +43,55 @@ int main()
 //VERTEX DATA
 #pragma region VERTEX DATA
 	//vertex coords = (x,y,z) ; similar to coordinate axis
-	float vertices[] = {
-		//pos //tex
-		0.5f, -0.5f, 0.0f, 1.0f, 0.0f, //bottom right
-		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, //bottom left
-		0.0f, 0.5f, 0.0f, 0.5f, 1.0f // top
-	};
-
 	//cube
 	float v2[] = {
-		-0.3f, -0.3f, -0.3f, 0.0f, 0.0f,
-		0.3f, -0.3f, -0.3f, 1.0f, 0.0f,
-		0.3f, 0.3f, -0.3f, 1.0f, 1.0f,
+		-0.3f, -0.3f, -0.3f, /*0.0f, 0.0f,*/
+		0.3f, -0.3f, -0.3f, /*1.0f, 0.0f,*/
+		0.3f, 0.3f, -0.3f, /*1.0f, 1.0f,*/
 
-		0.3f, 0.3f, -0.3f, 1.0f, 1.0f,
-		-0.3f, 0.3f, -0.3f, 0.0f, 1.0f,
-		-0.3f, -0.3f, -0.3f, 0.0f, 0.0f,
+		0.3f, 0.3f, -0.3f, /*1.0f, 1.0f,*/
+		-0.3f, 0.3f, -0.3f, /*0.0f, 1.0f,*/
+		-0.3f, -0.3f, -0.3f,/* 0.0f, 0.0f,*/
 
-		-0.3f, -0.3f, 0.3f, 0.0f, 0.0f,
-		0.3f, -0.3f, 0.3f, 1.0f, 0.0f,
-		0.3f, 0.3f, 0.3f, 1.0f, 1.0f,
+		-0.3f, -0.3f, 0.3f,/* 0.0f, 0.0f,*/
+		0.3f, -0.3f, 0.3f, /*1.0f, 0.0f,*/
+		0.3f, 0.3f, 0.3f, /*1.0f, 1.0f,*/
 
-		0.3f, 0.3f, 0.3f, 1.0f, 1.0f,
-		-0.3f, 0.3f, 0.3f, 0.0f, 1.0f,
-		-0.3f, -0.3f, 0.3f, 0.0f, 0.0f,
+		0.3f, 0.3f, 0.3f, /*1.0f, 1.0f,*/
+		-0.3f, 0.3f, 0.3f, /*0.0f, 1.0f,*/
+		-0.3f, -0.3f, 0.3f, /*0.0f, 0.0f,*/
 
-		-0.3f, 0.3f, 0.3f, 1.0f, 0.0f,
-		-0.3f, 0.3f, -0.3f, 1.0f, 1.0f,
-		-0.3f, -0.3f, -0.3f, 0.0f, 1.0f,
+		-0.3f, 0.3f, 0.3f, /*1.0f, 0.0f,*/
+		-0.3f, 0.3f, -0.3f, /*1.0f, 1.0f,*/
+		-0.3f, -0.3f, -0.3f, /*0.0f, 1.0f,*/
 
-		-0.3f, -0.3f, -0.3f, 0.0f, 1.0f,
-		-0.3f, -0.3f, 0.3f, 0.0f, 0.0f,
-		-0.3f, 0.3f, 0.3f, 1.0f, 0.0f,
+		-0.3f, -0.3f, -0.3f,/* 0.0f, 1.0f,*/
+		-0.3f, -0.3f, 0.3f, /*0.0f, 0.0f,*/
+		-0.3f, 0.3f, 0.3f, /*1.0f, 0.0f,*/
 
-		0.3f, 0.3f, 0.3f, 1.0f, 0.0f,
-		0.3f, 0.3f, -0.3f, 1.0f, 1.0f,
-		0.3f, -0.3f, -0.3f, 0.0f, 1.0f,
+		0.3f, 0.3f, 0.3f, /*1.0f, 0.0f,*/
+		0.3f, 0.3f, -0.3f, /*1.0f, 1.0f,*/
+		0.3f, -0.3f, -0.3f, /*0.0f, 1.0f,*/
 
-		0.3f, -0.3f, -0.3f, 0.0f, 1.0f,
-		0.3f, -0.3f, 0.3f, 0.0f, 0.0f,
-		0.3f, 0.3f, 0.3f, 1.0f, 0.0f,
+		0.3f, -0.3f, -0.3f, /*0.0f, 1.0f,*/
+		0.3f, -0.3f, 0.3f, /*0.0f, 0.0f,*/
+		0.3f, 0.3f, 0.3f, /*1.0f, 0.0f,*/
 
-		-0.3f, -0.3f, -0.3f, 0.0f, 1.0f,
-		0.3f, -0.3f, -0.3f, 1.0f, 1.0f,
-		0.3f, -0.3f, 0.3f, 1.0f, 0.0f,
+		-0.3f, -0.3f, -0.3f, /*0.0f, 1.0f,*/
+		0.3f, -0.3f, -0.3f, /*1.0f, 1.0f,*/
+		0.3f, -0.3f, 0.3f, /*1.0f, 0.0f,*/
 
-		0.3f, -0.3f, 0.3f, 1.0f, 0.0f,
-		-0.3f, -0.3f, 0.3f, 0.0f, 0.0f,
-		-0.3f, -0.3f, -0.3f, 0.0f, 1.0f,
+		0.3f, -0.3f, 0.3f, /*1.0f, 0.0f,*/
+		-0.3f, -0.3f, 0.3f, /*0.0f, 0.0f,*/
+		-0.3f, -0.3f, -0.3f, /*0.0f, 1.0f,*/
 
-		-0.3f, 0.3f, -0.3f, 0.0f, 1.0f,
-		0.3f, 0.3f, -0.3f, 1.0f, 1.0f,
-		0.3f, 0.3f, 0.3f, 1.0f, 0.0f,
+		-0.3f, 0.3f, -0.3f, /*0.0f, 1.0f,*/
+		0.3f, 0.3f, -0.3f, /*1.0f, 1.0f,*/
+		0.3f, 0.3f, 0.3f, /*1.0f, 0.0f,*/
 
-		0.3f, 0.3f, 0.3f, 1.0f, 0.0f,
-		-0.3f, 0.3f, 0.3f, 0.0f, 0.0f,
-		-0.3f, 0.3f, -0.3f, 0.0f, 1.0f
+		0.3f, 0.3f, 0.3f, /*1.0f, 0.0f,*/
+		-0.3f, 0.3f, 0.3f, /*0.0f, 0.0f,*/
+		-0.3f, 0.3f, -0.3f /*,0.0f, 1.0f*/
 	};
 
 	glm::vec3 cubePos[] = {
@@ -113,6 +106,7 @@ int main()
 //SHADER
 #pragma region SHADER INIT
 	Shader shader("vertexshader.vs", "fragmentshader.fs");
+	Shader lightShader("light.vs", "light.fs");
 #pragma endregion
 
 //VERTEX PROCESSING
@@ -124,13 +118,18 @@ int main()
 	glBindVertexArray(VAO);//bind the vertex attribute objects before binding buffers
 	glBindBuffer(GL_ARRAY_BUFFER, VBO); //Bind VBO to OPENGL's ARRAY buffer 
 	glBufferData(GL_ARRAY_BUFFER, sizeof(v2), v2, GL_STATIC_DRAW); //Copies the vertex data to the buffer's memory
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
 
-	//glvertexAttribPointer(Pos of attrib to config, Size of attrib, Type of attrib, Normalization, Space b/w attribs, Offset);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0); //position coordinates
-	glEnableVertexAttribArray(0); //Enable the vertex attribute
 
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float))); //texture coordinates
-	glEnableVertexAttribArray(1);
+	//light VBO
+	glGenVertexArrays(1, &lightVAO);
+	glBindVertexArray(lightVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(v2), v2, GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
 #pragma endregion
 
 //TEXTURE PROCESSING
@@ -246,11 +245,23 @@ int main()
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, texture2);
 
-		shader.use();
+		view = cam.getViewMatrix();
 
 		//BIND -> TRANSFORM -> DRAW
-		glBindVertexArray(VAO);
+		//light object
+		lightShader.use();
+		glBindVertexArray(lightVAO);
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, lightPos);
+		model = glm::scale(model, glm::vec3(0.2f));
+		lightShader.setMat4("lightModel", model);
+		lightShader.setMat4("lightView", view);
+		lightShader.setMat4("lightProj", proj);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
 
+		//cubes
+		shader.use();
+		glBindVertexArray(VAO);
 		for (unsigned int i = 0; i < 5; i++)
 		{
 			model = glm::mat4(1.0f);
@@ -260,10 +271,11 @@ int main()
 			shader.setMat4("model", model);
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
-		view = cam.getViewMatrix();
-
+		shader.setVec3("objClr", 1.0f, 0.0f, 0.0f);
+		shader.setVec3("lightClr", 1.0f, 1.0f, 1.0f);
 		shader.setMat4("view", view);
 		shader.setMat4("proj", proj);
+		
 
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //Wireframe Mode
 
@@ -276,6 +288,7 @@ int main()
 //END
 #pragma region CLEAR MEMORY
 	glDeleteVertexArrays(1, &VAO);
+	glDeleteVertexArrays(1, &lightVAO);
 	glDeleteBuffers(1, &VBO);
 
 	glfwTerminate(); //Clean up GLFW from memory after closing window

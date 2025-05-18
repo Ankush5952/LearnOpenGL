@@ -14,6 +14,7 @@ const unsigned int height = 900; //Window Height
 
 unsigned int VAO;
 unsigned int VBO;
+unsigned int lightVAO;
 
 unsigned int texture1;
 unsigned int texture2;
@@ -37,6 +38,8 @@ float lastFrame = 0.0f;
 float lastX = width / 2;
 float lastY = height / 2;
 bool firstMouse = true;
+
+glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 
 void framebuffer_size_callback(GLFWwindow* window, int w, int h) //Buffer callback function for window resize
 {
