@@ -48,53 +48,54 @@ int main()
 	//vertex coords = (x,y,z) ; similar to coordinate axis
 	//cube
 	float v2[] = {
-		-0.3f, -0.3f, -0.3f, /*0.0f, 0.0f,*/
-		0.3f, -0.3f, -0.3f, /*1.0f, 0.0f,*/
-		0.3f, 0.3f, -0.3f, /*1.0f, 1.0f,*/
+		//pos                //tex       //normals
+		-0.3f, -0.3f, -0.3f, 0.0f, 0.0f, 0.0f,0.0f,-1.0f,
+		0.3f, -0.3f, -0.3f, 1.0f, 0.0f, 0.0f,0.0f,-1.0f,
+		0.3f, 0.3f, -0.3f, 1.0f, 1.0f, 0.0f,0.0f,-1.0f,
 
-		0.3f, 0.3f, -0.3f, /*1.0f, 1.0f,*/
-		-0.3f, 0.3f, -0.3f, /*0.0f, 1.0f,*/
-		-0.3f, -0.3f, -0.3f,/* 0.0f, 0.0f,*/
+		0.3f, 0.3f, -0.3f, 1.0f, 1.0f, 0.0f,0.0f,-1.0f,
+		-0.3f, 0.3f, -0.3f, 0.0f, 1.0f, 0.0f,0.0f,-1.0f,
+		-0.3f, -0.3f, -0.3f, 0.0f, 0.0f, 0.0f,0.0f,-1.0f,
 
-		-0.3f, -0.3f, 0.3f,/* 0.0f, 0.0f,*/
-		0.3f, -0.3f, 0.3f, /*1.0f, 0.0f,*/
-		0.3f, 0.3f, 0.3f, /*1.0f, 1.0f,*/
+		-0.3f, -0.3f, 0.3f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+		0.3f, -0.3f, 0.3f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+		0.3f, 0.3f, 0.3f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
 
-		0.3f, 0.3f, 0.3f, /*1.0f, 1.0f,*/
-		-0.3f, 0.3f, 0.3f, /*0.0f, 1.0f,*/
-		-0.3f, -0.3f, 0.3f, /*0.0f, 0.0f,*/
+		0.3f, 0.3f, 0.3f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+		-0.3f, 0.3f, 0.3f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+		-0.3f, -0.3f, 0.3f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
 
-		-0.3f, 0.3f, 0.3f, /*1.0f, 0.0f,*/
-		-0.3f, 0.3f, -0.3f, /*1.0f, 1.0f,*/
-		-0.3f, -0.3f, -0.3f, /*0.0f, 1.0f,*/
+		-0.3f, 0.3f, 0.3f, 1.0f, 0.0f,  -1.0f, 0.0f, 0.0f,
+		-0.3f, 0.3f, -0.3f, 1.0f, 1.0f,  -1.0f, 0.0f, 0.0f,
+		-0.3f, -0.3f, -0.3f, 0.0f, 1.0f,  -1.0f, 0.0f, 0.0f,
 
-		-0.3f, -0.3f, -0.3f,/* 0.0f, 1.0f,*/
-		-0.3f, -0.3f, 0.3f, /*0.0f, 0.0f,*/
-		-0.3f, 0.3f, 0.3f, /*1.0f, 0.0f,*/
+		-0.3f, -0.3f, -0.3f, 0.0f, 1.0f,  -1.0f, 0.0f, 0.0f,
+		-0.3f, -0.3f, 0.3f, 0.0f, 0.0f,  -1.0f, 0.0f, 0.0f,
+		-0.3f, 0.3f, 0.3f, 1.0f, 0.0f,  -1.0f, 0.0f, 0.0f,
+		
+		0.3f, 0.3f, 0.3f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+		0.3f, 0.3f, -0.3f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
+		0.3f, -0.3f, -0.3f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f,
 
-		0.3f, 0.3f, 0.3f, /*1.0f, 0.0f,*/
-		0.3f, 0.3f, -0.3f, /*1.0f, 1.0f,*/
-		0.3f, -0.3f, -0.3f, /*0.0f, 1.0f,*/
+		0.3f, -0.3f, -0.3f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f,
+		0.3f, -0.3f, 0.3f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+		0.3f, 0.3f, 0.3f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,
 
-		0.3f, -0.3f, -0.3f, /*0.0f, 1.0f,*/
-		0.3f, -0.3f, 0.3f, /*0.0f, 0.0f,*/
-		0.3f, 0.3f, 0.3f, /*1.0f, 0.0f,*/
+		-0.3f, -0.3f, -0.3f, 0.0f, 1.0f, 0.0f, -1.0f, 0.0f,
+		0.3f, -0.3f, -0.3f, 1.0f, 1.0f, 0.0f, -1.0f, 0.0f,
+		0.3f, -0.3f, 0.3f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f,
 
-		-0.3f, -0.3f, -0.3f, /*0.0f, 1.0f,*/
-		0.3f, -0.3f, -0.3f, /*1.0f, 1.0f,*/
-		0.3f, -0.3f, 0.3f, /*1.0f, 0.0f,*/
+		0.3f, -0.3f, 0.3f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f,
+		-0.3f, -0.3f, 0.3f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f,
+		-0.3f, -0.3f, -0.3f, 0.0f, 1.0f, 0.0f, -1.0f, 0.0f,
 
-		0.3f, -0.3f, 0.3f, /*1.0f, 0.0f,*/
-		-0.3f, -0.3f, 0.3f, /*0.0f, 0.0f,*/
-		-0.3f, -0.3f, -0.3f, /*0.0f, 1.0f,*/
+		-0.3f, 0.3f, -0.3f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+		0.3f, 0.3f, -0.3f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+		0.3f, 0.3f, 0.3f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
 
-		-0.3f, 0.3f, -0.3f, /*0.0f, 1.0f,*/
-		0.3f, 0.3f, -0.3f, /*1.0f, 1.0f,*/
-		0.3f, 0.3f, 0.3f, /*1.0f, 0.0f,*/
-
-		0.3f, 0.3f, 0.3f, /*1.0f, 0.0f,*/
-		-0.3f, 0.3f, 0.3f, /*0.0f, 0.0f,*/
-		-0.3f, 0.3f, -0.3f /*,0.0f, 1.0f*/
+		0.3f, 0.3f, 0.3f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+		-0.3f, 0.3f, 0.3f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+		-0.3f, 0.3f, -0.3f ,0.0f, 1.0f, 0.0f, 1.0f, 0.0f
 	};
 
 	glm::vec3 cubePos[] = {
@@ -121,8 +122,12 @@ int main()
 	glBindVertexArray(VAO);//bind the vertex attribute objects before binding buffers
 	glBindBuffer(GL_ARRAY_BUFFER, VBO); //Bind VBO to OPENGL's ARRAY buffer 
 	glBufferData(GL_ARRAY_BUFFER, sizeof(v2), v2, GL_STATIC_DRAW); //Copies the vertex data to the buffer's memory
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0); //pos
 	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3*sizeof(float))); //tex
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(5 * sizeof(float))); //normal
+	glEnableVertexAttribArray(2);
 
 
 	//light VBO
@@ -130,7 +135,7 @@ int main()
 	glBindVertexArray(lightVAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(v2), v2, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0); //pos
 	glEnableVertexAttribArray(0);
 
 #pragma endregion
@@ -211,15 +216,6 @@ int main()
 
 //CAMERA
 #pragma region CAMERA
-	camPos = glm::vec3(0.0f, 0.0f, 3.0f); //position of camera
-
-	camFront = glm::vec3(0.0f, 0.0f, -1.0f); //Front facing vector of camera
-
-	//Up axis
-	camUp = glm::vec3(0.0f, 1.0f, 0.0f);
-
-	//view matrix
-	view = glm::lookAt(camPos, camPos + camFront, camUp);
 
 #pragma endregion
 
@@ -265,7 +261,7 @@ int main()
 		//cubes
 		shader.use();
 		glBindVertexArray(VAO);
-		for (unsigned int i = 0; i < 5; i++)
+		/*for (unsigned int i = 0; i < 5; i++)
 		{
 			model = glm::mat4(1.0f);
 			model = glm::translate(model, cubePos[i]);
@@ -273,11 +269,17 @@ int main()
 			model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 1.0f, 0.0f));
 			shader.setMat4("model", model);
 			glDrawArrays(GL_TRIANGLES, 0, 36);
-		}
-		shader.setVec3("objClr", 1.0f, 0.0f, 0.0f);
+		}*/
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, cubePos[0]);
+		shader.setMat4("model", model);
+		shader.setVec3("lightPos", lightPos);
+		shader.setVec3("objClr", 1.0f, 0.5f, 0.31f);
 		shader.setVec3("lightClr", 1.0f, 1.0f, 1.0f);
+		shader.setVec3("viewPos", cam.pos);
 		shader.setMat4("view", view);
 		shader.setMat4("proj", proj);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
 		
 
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //Wireframe Mode

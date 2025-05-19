@@ -27,11 +27,6 @@ glm::mat4 proj;
 
 Camera cam;
 
-glm::vec3 camPos;
-glm::vec3 camUp;
-glm::vec3 camFront;
-glm::vec3 camDir;
-
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
