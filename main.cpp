@@ -251,6 +251,7 @@ int main()
 		lightShader.use();
 		glBindVertexArray(lightVAO);
 		model = glm::mat4(1.0f);
+		lightPos = glm::vec3(sin(glfwGetTime()), sin(glfwGetTime())*cos(glfwGetTime()), cos(glfwGetTime()));
 		model = glm::translate(model, lightPos);
 		model = glm::scale(model, glm::vec3(0.2f));
 		lightShader.setMat4("lightModel", model);
