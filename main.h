@@ -16,6 +16,8 @@ unsigned int VAO;
 unsigned int VBO;
 unsigned int lightVAO;
 
+glm::vec3 lightClr = glm::vec3(1.0f);
+
 unsigned int texture1;
 unsigned int texture2;
 

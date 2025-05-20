@@ -111,6 +111,22 @@ int main()
 #pragma region SHADER INIT
 	Shader shader("vertexshader.vs", "fragmentshader.fs");
 	Shader lightShader("light.vs", "light.fs");
+
+	lightShader.use();
+	lightShader.setVec3("lightClr", lightClr);
+
+	shader.use();
+	//light
+	shader.setVec3("light.ambient", glm::vec3(0.2f)*lightClr);
+	shader.setVec3("light.diffuse", glm::vec3(0.5f)* lightClr);
+	shader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
+	//material
+	shader.setVec3("mat.ambient", 1.0f,0.5f,0.3f);
+	shader.setVec3("mat.diffusion", 1.0f, 0.5f, 0.3f);
+	shader.setVec3("mat.specular", 0.5f, 0.5f, 0.5f);
+	shader.setFloat("mat.shininess", 32.0f);
+	//colors
+	shader.setVec3("objClr", 1.0f, 0.5f, 0.31f);
 #pragma endregion
 
 //VERTEX PROCESSING
@@ -251,32 +267,25 @@ int main()
 		lightShader.use();
 		glBindVertexArray(lightVAO);
 		model = glm::mat4(1.0f);
-		lightPos = glm::vec3(sin(glfwGetTime()), sin(glfwGetTime())*cos(glfwGetTime()), cos(glfwGetTime()));
+		lightPos = glm::vec3(sin(glfwGetTime()), sin(glfwGetTime()) * cos(glfwGetTime()), cos(glfwGetTime()));
+		lightClr = glm::vec3(sin(glfwGetTime()), sin(glfwGetTime()) * cos(glfwGetTime()), cos(glfwGetTime()));
 		model = glm::translate(model, lightPos);
 		model = glm::scale(model, glm::vec3(0.2f));
 		lightShader.setMat4("lightModel", model);
 		lightShader.setMat4("lightView", view);
 		lightShader.setMat4("lightProj", proj);
+		lightShader.setVec3("lightClr", lightClr);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
-		//cubes
+		//cube
 		shader.use();
 		glBindVertexArray(VAO);
-		/*for (unsigned int i = 0; i < 5; i++)
-		{
-			model = glm::mat4(1.0f);
-			model = glm::translate(model, cubePos[i]);
-			float angle = i * 20 + 10;
-			model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 1.0f, 0.0f));
-			shader.setMat4("model", model);
-			glDrawArrays(GL_TRIANGLES, 0, 36);
-		}*/
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, cubePos[0]);
+		shader.setVec3("light.pos", lightPos);
+		shader.setVec3("light.ambient", glm::vec3(0.2f) * lightClr);
+		shader.setVec3("light.diffuse", glm::vec3(0.5f) * lightClr);
 		shader.setMat4("model", model);
-		shader.setVec3("lightPos", lightPos);
-		shader.setVec3("objClr", 1.0f, 0.5f, 0.31f);
-		shader.setVec3("lightClr", 1.0f, 1.0f, 1.0f);
 		shader.setVec3("viewPos", cam.pos);
 		shader.setMat4("view", view);
 		shader.setMat4("proj", proj);
