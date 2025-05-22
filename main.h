@@ -18,8 +18,8 @@ unsigned int lightVAO;
 
 glm::vec3 lightClr = glm::vec3(1.0f);
 
-unsigned int texture1;
-unsigned int texture2;
+unsigned int diffuseMap;
+unsigned int specularMap;
 
 glm::mat4 trans;
 

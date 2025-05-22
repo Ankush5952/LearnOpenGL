@@ -46,6 +46,8 @@ int main()
 //VERTEX DATA
 #pragma region VERTEX DATA
 	//vertex coords = (x,y,z) ; similar to coordinate axis
+	// texcoord = (s,t);
+	// normal = (x,y,z);
 	//cube
 	float v2[] = {
 		//pos                //tex       //normals
@@ -121,12 +123,11 @@ int main()
 	shader.setVec3("light.diffuse", glm::vec3(0.5f)* lightClr);
 	shader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
 	//material
-	shader.setVec3("mat.ambient", 1.0f,0.5f,0.3f);
-	shader.setVec3("mat.diffusion", 1.0f, 0.5f, 0.3f);
+	shader.setInt("mat.diffuse", 0);
 	shader.setVec3("mat.specular", 0.5f, 0.5f, 0.5f);
 	shader.setFloat("mat.shininess", 32.0f);
 	//colors
-	shader.setVec3("objClr", 1.0f, 0.5f, 0.31f);
+	shader.setVec3("objClr", glm::vec3(1.0f));
 #pragma endregion
 
 //VERTEX PROCESSING
@@ -159,57 +160,48 @@ int main()
 //TEXTURE PROCESSING
 #pragma region TEXTURE PROCESSING
 	//texture coords = (s,t,r) ; for 2D tex = (s,t); s> ,t^
-	//tex-1
-	glGenTextures(1, &texture1); //generate a texture
-	glBindTexture(GL_TEXTURE_2D, texture1); //bind the texture
+	int twidth, theight, nchannels;
+	unsigned char* tdata;
 
+	//diffuse map
+	glGenTextures(1, &diffuseMap);
+	glBindTexture(GL_TEXTURE_2D, diffuseMap);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); //defining the 2D texture properties for s coordinate
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT); //defining the 2D texture properties for t coordinate
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); //defining the minimization filter method using mipmap
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); //defining the magnification filter method
-
-	int twidth, theight, nchannels;
-
-	unsigned char* tdata = stbi_load("wood.jpg", &twidth, &theight, &nchannels,0); //load the texture image
-	//check for error
-	if(tdata)
-	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, twidth, theight, 0, GL_RGB, GL_UNSIGNED_BYTE, tdata); //generate texture from image
-		glGenerateMipmap(GL_TEXTURE_2D); //generate mipmap
-	}
-	else
-	{
-		std::cout << "FAILED TO LOAD TEXTURE IMAGE 1\n";
-	}
-
-	stbi_image_free(tdata); //free the image data after processing
-	//tex-2
-	glGenTextures(1, &texture2); //generate a texture
-	glBindTexture(GL_TEXTURE_2D, texture2); //bind the texture
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER); //defining the 2D texture properties for s coordinate
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER); //defining the 2D texture properties for t coordinate
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); //defining the minimization filter method using mipmap
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); //defining the magnification filter method
-
-	stbi_set_flip_vertically_on_load(true);
-	tdata = stbi_load("smily.png", &twidth, &theight, &nchannels, 0); //load the texture image
-	//check for error
-	if(tdata)
+	tdata = stbi_load("container.png", &twidth, &theight, &nchannels, 0);
+	if (tdata)
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, twidth, theight, 0, GL_RGBA, GL_UNSIGNED_BYTE, tdata); //generate texture from image
 		glGenerateMipmap(GL_TEXTURE_2D); //generate mipmap
 	}
 	else
 	{
-		std::cout << "FAILED TO LOAD TEXTURE IMAGE 2\n";
+		std::cout << "FAILED TO LOAD DIFFUSE MAP\n";
 	}
+	stbi_image_free(tdata);
 
-	stbi_image_free(tdata); //free the image data after processing
-
+	//specular map
+	glGenTextures(1, &specularMap);
+	glBindTexture(GL_TEXTURE_2D, specularMap);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); //defining the 2D texture properties for s coordinate
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT); //defining the 2D texture properties for t coordinate
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); //defining the minimization filter method using mipmap
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); //defining the magnification filter method
+	tdata = stbi_load("container_specular.png", &twidth, &theight, &nchannels, 0);
+	if (tdata)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, twidth, theight, 0, GL_RGBA, GL_UNSIGNED_BYTE, tdata);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+	{
+		std::cout << "FAILED TO LOAD SPECULAR MAP" << "\n";
+	}
 	shader.use();
-	shader.setInt("Texture1", 0);
-	shader.setInt("Texture2", 1);
+	shader.setInt("mat.diffuse", 0);
+	shader.setInt("mat.specular", 1);
 #pragma endregion
 
 //TRANSFORMATION
@@ -253,22 +245,22 @@ int main()
 		glClearColor(0.3f, 0.3f, 0.3f, 1); //bg clr
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		//Drawing
+		//Textures
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, texture1);
+		glBindTexture(GL_TEXTURE_2D, diffuseMap);
 
 		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, texture2);
+		glBindTexture(GL_TEXTURE_2D, specularMap);
 
+		//Drawing : BIND->TRANSFORM->DRAW
 		view = cam.getViewMatrix();
 
-		//BIND -> TRANSFORM -> DRAW
 		//light object
 		lightShader.use();
 		glBindVertexArray(lightVAO);
 		model = glm::mat4(1.0f);
 		lightPos = glm::vec3(sin(glfwGetTime()), sin(glfwGetTime()) * cos(glfwGetTime()), cos(glfwGetTime()));
-		lightClr = glm::vec3(sin(glfwGetTime()), sin(glfwGetTime()) * cos(glfwGetTime()), cos(glfwGetTime()));
+		//lightClr = glm::vec3(sin(glfwGetTime()), sin(glfwGetTime()) * cos(glfwGetTime()), cos(glfwGetTime()));
 		model = glm::translate(model, lightPos);
 		model = glm::scale(model, glm::vec3(0.2f));
 		lightShader.setMat4("lightModel", model);
