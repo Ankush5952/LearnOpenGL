@@ -199,9 +199,28 @@ int main()
 	{
 		std::cout << "FAILED TO LOAD SPECULAR MAP" << "\n";
 	}
+
+	//emission map
+	glGenTextures(1, &emissionMap);
+	glBindTexture(GL_TEXTURE_2D, emissionMap);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); //defining the 2D texture properties for s coordinate
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT); //defining the 2D texture properties for t coordinate
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); //defining the minimization filter method using mipmap
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); //defining the magnification filter method
+	tdata = stbi_load("matrix.jpg", &twidth, &theight, &nchannels, 0);
+	if (tdata)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, twidth, theight, 0, GL_RGB, GL_UNSIGNED_BYTE, tdata);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+	{
+		std::cout << "FAILED TO LOAD SPECULAR MAP" << "\n";
+	}
 	shader.use();
 	shader.setInt("mat.diffuse", 0);
 	shader.setInt("mat.specular", 1);
+	shader.setInt("mat.emission", 2);
 #pragma endregion
 
 //TRANSFORMATION
@@ -251,6 +270,9 @@ int main()
 
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, specularMap);
+
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, emissionMap);
 
 		//Drawing : BIND->TRANSFORM->DRAW
 		view = cam.getViewMatrix();

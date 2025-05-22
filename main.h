@@ -20,6 +20,7 @@ glm::vec3 lightClr = glm::vec3(1.0f);
 
 unsigned int diffuseMap;
 unsigned int specularMap;
+unsigned int emissionMap;
 
 glm::mat4 trans;
 
