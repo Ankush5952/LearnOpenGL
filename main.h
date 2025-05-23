@@ -38,7 +38,7 @@ float lastY = height / 2;
 bool firstMouse = true;
 
 //glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
-glm::vec4 lightDir(1.0f, 1.0f, 2.0f, 1.0f); //w = 0:directional ; w = 1:point
+glm::vec3 lightDir(1.0f, 1.0f, 2.0f); 
 
 float Kc = 1.0f;
 float Kl = 0.09f;

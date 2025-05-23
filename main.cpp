@@ -51,61 +51,65 @@ int main()
 	//cube
 	float v2[] = {
 		//pos                //tex       //normals
-		-0.3f, -0.3f, -0.3f, 0.0f, 0.0f, 0.0f,0.0f,-1.0f,
-		0.3f, -0.3f, -0.3f, 1.0f, 0.0f, 0.0f,0.0f,-1.0f,
-		0.3f, 0.3f, -0.3f, 1.0f, 1.0f, 0.0f,0.0f,-1.0f,
+		-0.5, -0.5, -0.5, 0.0f, 0.0f, 0.0f,0.0f,-1.0f,
+		0.5, -0.5, -0.5, 1.0f, 0.0f, 0.0f,0.0f,-1.0f,
+		0.5, 0.5, -0.5, 1.0f, 1.0f, 0.0f,0.0f,-1.0f,
 
-		0.3f, 0.3f, -0.3f, 1.0f, 1.0f, 0.0f,0.0f,-1.0f,
-		-0.3f, 0.3f, -0.3f, 0.0f, 1.0f, 0.0f,0.0f,-1.0f,
-		-0.3f, -0.3f, -0.3f, 0.0f, 0.0f, 0.0f,0.0f,-1.0f,
+		0.5, 0.5, -0.5, 1.0f, 1.0f, 0.0f,0.0f,-1.0f,
+		-0.5, 0.5, -0.5, 0.0f, 1.0f, 0.0f,0.0f,-1.0f,
+		-0.5, -0.5, -0.5, 0.0f, 0.0f, 0.0f,0.0f,-1.0f,
 
-		-0.3f, -0.3f, 0.3f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-		0.3f, -0.3f, 0.3f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-		0.3f, 0.3f, 0.3f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+		-0.5, -0.5, 0.5, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+		0.5, -0.5, 0.5, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+		0.5, 0.5, 0.5, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
 
-		0.3f, 0.3f, 0.3f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-		-0.3f, 0.3f, 0.3f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-		-0.3f, -0.3f, 0.3f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+		0.5, 0.5, 0.5, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+		-0.5, 0.5, 0.5, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+		-0.5, -0.5, 0.5, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
 
-		-0.3f, 0.3f, 0.3f, 1.0f, 0.0f,  -1.0f, 0.0f, 0.0f,
-		-0.3f, 0.3f, -0.3f, 1.0f, 1.0f,  -1.0f, 0.0f, 0.0f,
-		-0.3f, -0.3f, -0.3f, 0.0f, 1.0f,  -1.0f, 0.0f, 0.0f,
+		-0.5, 0.5, 0.5, 1.0f, 0.0f,  -1.0f, 0.0f, 0.0f,
+		-0.5, 0.5, -0.5, 1.0f, 1.0f,  -1.0f, 0.0f, 0.0f,
+		-0.5, -0.5, -0.5, 0.0f, 1.0f,  -1.0f, 0.0f, 0.0f,
 
-		-0.3f, -0.3f, -0.3f, 0.0f, 1.0f,  -1.0f, 0.0f, 0.0f,
-		-0.3f, -0.3f, 0.3f, 0.0f, 0.0f,  -1.0f, 0.0f, 0.0f,
-		-0.3f, 0.3f, 0.3f, 1.0f, 0.0f,  -1.0f, 0.0f, 0.0f,
+		-0.5, -0.5, -0.5, 0.0f, 1.0f,  -1.0f, 0.0f, 0.0f,
+		-0.5, -0.5, 0.5, 0.0f, 0.0f,  -1.0f, 0.0f, 0.0f,
+		-0.5, 0.5, 0.5, 1.0f, 0.0f,  -1.0f, 0.0f, 0.0f,
 		
-		0.3f, 0.3f, 0.3f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-		0.3f, 0.3f, -0.3f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
-		0.3f, -0.3f, -0.3f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f,
+		0.5, 0.5, 0.5, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+		0.5, 0.5, -0.5, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
+		0.5, -0.5, -0.5, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f,
 
-		0.3f, -0.3f, -0.3f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f,
-		0.3f, -0.3f, 0.3f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-		0.3f, 0.3f, 0.3f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+		0.5, -0.5, -0.5, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f,
+		0.5, -0.5, 0.5, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+		0.5, 0.5, 0.5, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,
 
-		-0.3f, -0.3f, -0.3f, 0.0f, 1.0f, 0.0f, -1.0f, 0.0f,
-		0.3f, -0.3f, -0.3f, 1.0f, 1.0f, 0.0f, -1.0f, 0.0f,
-		0.3f, -0.3f, 0.3f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f,
+		-0.5, -0.5, -0.5, 0.0f, 1.0f, 0.0f, -1.0f, 0.0f,
+		0.5, -0.5, -0.5, 1.0f, 1.0f, 0.0f, -1.0f, 0.0f,
+		0.5, -0.5, 0.5, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f,
 
-		0.3f, -0.3f, 0.3f, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f,
-		-0.3f, -0.3f, 0.3f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f,
-		-0.3f, -0.3f, -0.3f, 0.0f, 1.0f, 0.0f, -1.0f, 0.0f,
+		0.5, -0.5, 0.5, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f,
+		-0.5, -0.5, 0.5, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f,
+		-0.5, -0.5, -0.5, 0.0f, 1.0f, 0.0f, -1.0f, 0.0f,
 
-		-0.3f, 0.3f, -0.3f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-		0.3f, 0.3f, -0.3f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-		0.3f, 0.3f, 0.3f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+		-0.5, 0.5, -0.5, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+		0.5, 0.5, -0.5, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+		0.5, 0.5, 0.5, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
 
-		0.3f, 0.3f, 0.3f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-		-0.3f, 0.3f, 0.3f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-		-0.3f, 0.3f, -0.3f ,0.0f, 1.0f, 0.0f, 1.0f, 0.0f
+		0.5, 0.5, 0.5, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+		-0.5, 0.5, 0.5, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+		-0.5, 0.5, -0.5 ,0.0f, 1.0f, 0.0f, 1.0f, 0.0f
 	};
 
 	glm::vec3 cubePos[] = {
 		glm::vec3(0.0f,0.0f,0.0f),
-		glm::vec3(1.0f,1.0f,-1.0f),
-		glm::vec3(-1.0f,1.0f,-1.0f),
-		glm::vec3(1.5f,-1.5f,-2.0f),
-		glm::vec3(-1.5f,-2.0f,-2.0f),
+		glm::vec3(1.0f,0.0f,-0.0f),
+		glm::vec3(-1.0f,0.0f,0.0f),
+		glm::vec3(0.0f,-1.0f,0.0f),
+		glm::vec3(0.0f,1.0f,0.0f),
+		glm::vec3(1.0f,1.0f,0.0f),
+		glm::vec3(1.0f,-1.0f,0.0f),
+		glm::vec3(-1.0f,1.0f,0.0f),
+		glm::vec3(-1.0f,-1.0f,0.0f)
 	};
 #pragma endregion
 
@@ -119,7 +123,7 @@ int main()
 
 	shader.use();
 	//light
-	shader.setVec3("light.ambient", glm::vec3(0.2f)*lightClr);
+	shader.setVec3("light.ambient", glm::vec3(0.1f));
 	shader.setVec3("light.diffuse", glm::vec3(0.5f)* lightClr);
 	shader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
 	shader.setFloat("light.Kc", Kc);
@@ -264,7 +268,7 @@ int main()
 		proj = glm::perspective(glm::radians(cam.zoom), (float)width / height, 0.1f, 100.0f);
 
 		//Rendering
-		glClearColor(0.3f, 0.3f, 0.3f, 1); //bg clr
+		glClearColor(0.0f, 0.0f, 0.0f, 1); //bg clr
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		//Textures
@@ -281,34 +285,36 @@ int main()
 		view = cam.getViewMatrix();
 
 		//light object
-		lightShader.use();
-		glBindVertexArray(lightVAO);
-		model = glm::mat4(1.0f);
-		//lightDir = glm::vec4(sin(glfwGetTime()), sin(glfwGetTime()) * cos(glfwGetTime()), cos(glfwGetTime()), lightDir.w);
-		lightDir = glm::vec4(sin(glfwGetTime())*3, lightDir.y, cos(glfwGetTime())*3, lightDir.w);
-		//lightClr = glm::vec3(sin(glfwGetTime()), sin(glfwGetTime()) * cos(glfwGetTime()), cos(glfwGetTime()));
-		model = glm::translate(model, glm::vec3(lightDir));
-		model = glm::scale(model, glm::vec3(0.2f));
-		lightShader.setMat4("lightModel", model);
-		lightShader.setMat4("lightView", view);
-		lightShader.setMat4("lightProj", proj);
-		lightShader.setVec3("lightClr", lightClr);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		//lightShader.use();
+		//glBindVertexArray(lightVAO);
+		//model = glm::mat4(1.0f);
+		////lightDir = glm::vec4(sin(glfwGetTime()), sin(glfwGetTime()) * cos(glfwGetTime()), cos(glfwGetTime()), lightDir.w);
+		////lightDir = glm::vec4(sin(glfwGetTime())*3, lightDir.y, cos(glfwGetTime())*3, lightDir.w);
+		////lightClr = glm::vec3(sin(glfwGetTime()), sin(glfwGetTime()) * cos(glfwGetTime()), cos(glfwGetTime()));
+		//model = glm::translate(model, glm::vec3(lightDir));
+		//model = glm::scale(model, glm::vec3(0.2f));
+		//lightShader.setMat4("lightModel", model);
+		//lightShader.setMat4("lightView", view);
+		//lightShader.setMat4("lightProj", proj);
+		//lightShader.setVec3("lightClr", lightClr);
+		//glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		//cube
 		shader.use();
 		glBindVertexArray(VAO);
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 9; i++)
 		{
 			model = glm::mat4(1.0f);
 			model = glm::translate(model, cubePos[i]);
 			float angle = 20 + i;
-			model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.0f, -1.0f));
+			//model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.0f, -1.0f));
 			shader.setMat4("model", model);
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
 		//model = glm::translate(model, cubePos[0]);
-		shader.setVec4("light.dir", lightDir);
+		shader.setFloat("light.spotCutoff", glm::cos(glm::radians(12.5f)));
+		shader.setVec3("light.dir", cam.pos);
+		shader.setVec3("light.spotDir", cam.front);
 		shader.setVec3("light.ambient", glm::vec3(0.2f) * lightClr);
 		shader.setVec3("light.diffuse", glm::vec3(0.5f) * lightClr);
 		//shader.setMat4("model", model);
