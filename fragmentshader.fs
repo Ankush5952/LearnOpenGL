@@ -15,6 +15,10 @@ struct Light
 	vec3 ambient;
 	vec3 diffuse;
 	vec3 specular;
+
+	float Kc; //constant 
+	float Kl; //linear constant
+	float Kq; //quadratic constant
 };
 
 in vec2 texcoords;
@@ -33,15 +37,17 @@ out vec4 fragclr;
 void main()
 {
 	vec3 lightDir = vec3(0.0f);
+	float attenuation = 1.0f;
 	if(light.dir.w == 0.0) //directional light
 	{
 		lightDir = normalize(-light.dir.xyz);
 	}else if(light.dir.w == 1.0) //point light
 	{
 		lightDir = normalize(light.dir.xyz - fragPos);
+		//attenuation
+		float d = length(light.dir.xyz - fragPos);
+		attenuation = 1.0f/(light.Kc + light.Kl*d + light.Kq*d*d);
 	}
-
-	float intensity = 1.0f;
 
 	//ambient
 	vec3 ambient =vec3(texture(mat.diffuse,texcoords))*light.ambient;
@@ -61,7 +67,7 @@ void main()
 	float emissionStr = 0.0f;
 	vec3 emission = emissionStr * vec3(texture(mat.emission,texcoords));
 
-	vec3 result = (diffuse + ambient + specular + emission) * objClr * intensity;
+	vec3 result = (diffuse + ambient + specular + emission) * objClr * attenuation;
 
 	fragclr = vec4(result, 1.0f);
 }

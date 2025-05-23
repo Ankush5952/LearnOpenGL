@@ -102,10 +102,10 @@ int main()
 
 	glm::vec3 cubePos[] = {
 		glm::vec3(0.0f,0.0f,0.0f),
-		glm::vec3(1.0f,1.0f,-2.0f),
-		glm::vec3(-1.0f,1.0f,-2.0f),
-		glm::vec3(1.5f,-1.5f,-5.0f),
-		glm::vec3(-1.5f,-2.0f,-7.0f),
+		glm::vec3(1.0f,1.0f,-1.0f),
+		glm::vec3(-1.0f,1.0f,-1.0f),
+		glm::vec3(1.5f,-1.5f,-2.0f),
+		glm::vec3(-1.5f,-2.0f,-2.0f),
 	};
 #pragma endregion
 
@@ -122,6 +122,9 @@ int main()
 	shader.setVec3("light.ambient", glm::vec3(0.2f)*lightClr);
 	shader.setVec3("light.diffuse", glm::vec3(0.5f)* lightClr);
 	shader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
+	shader.setFloat("light.Kc", Kc);
+	shader.setFloat("light.Kl", Kl);
+	shader.setFloat("light.Kq", Kq);
 	//material
 	shader.setInt("mat.diffuse", 0);
 	shader.setVec3("mat.specular", 0.5f, 0.5f, 0.5f);
@@ -282,7 +285,7 @@ int main()
 		glBindVertexArray(lightVAO);
 		model = glm::mat4(1.0f);
 		//lightDir = glm::vec4(sin(glfwGetTime()), sin(glfwGetTime()) * cos(glfwGetTime()), cos(glfwGetTime()), lightDir.w);
-		lightDir = glm::vec4(sin(glfwGetTime()), lightDir.y, cos(glfwGetTime()), lightDir.w);
+		lightDir = glm::vec4(sin(glfwGetTime())*3, lightDir.y, cos(glfwGetTime())*3, lightDir.w);
 		//lightClr = glm::vec3(sin(glfwGetTime()), sin(glfwGetTime()) * cos(glfwGetTime()), cos(glfwGetTime()));
 		model = glm::translate(model, glm::vec3(lightDir));
 		model = glm::scale(model, glm::vec3(0.2f));
