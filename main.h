@@ -37,7 +37,8 @@ float lastX = width / 2;
 float lastY = height / 2;
 bool firstMouse = true;
 
-glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+//glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+glm::vec4 lightDir(-0.2f, -1.0f, -0.5f, 0.0f); //w = 0:directional ; w = 1:point
 
 void framebuffer_size_callback(GLFWwindow* window, int w, int h) //Buffer callback function for window resize
 {

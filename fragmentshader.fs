@@ -10,7 +10,7 @@ struct Material
 
 struct Light
 {
-	vec3 pos;
+	vec4 dir;
 
 	vec3 ambient;
 	vec3 diffuse;
@@ -32,12 +32,22 @@ out vec4 fragclr;
 
 void main()
 {
+	vec3 lightDir = vec3(0.0f);
+	if(light.dir.w == 0.0) //directional light
+	{
+		lightDir = normalize(-light.dir.xyz);
+	}else if(light.dir.w == 1.0) //point light
+	{
+		lightDir = normalize(light.dir.xyz - fragPos);
+	}
+
+	float intensity = 1.0f;
+
 	//ambient
 	vec3 ambient =vec3(texture(mat.diffuse,texcoords))*light.ambient;
 
 	//diffuse
 	vec3 norm = normalize(normal);
-	vec3 lightDir = normalize(light.pos - fragPos);
 	float diff = max(dot(norm,lightDir),0.0f);
 	vec3 diffuse = light.diffuse * diff * vec3(texture(mat.diffuse,texcoords));
 
@@ -48,10 +58,10 @@ void main()
 	vec3 specular = spec * vec3(texture(mat.specular,texcoords)) * light.specular;
 
 	//emission
-	float emissionStr = 0.5f;
+	float emissionStr = 0.0f;
 	vec3 emission = emissionStr * vec3(texture(mat.emission,texcoords));
 
-	vec3 result = (diffuse + ambient + specular + emission) * objClr;
+	vec3 result = (diffuse + ambient + specular + emission) * objClr * intensity;
 
 	fragclr = vec4(result, 1.0f);
 }
