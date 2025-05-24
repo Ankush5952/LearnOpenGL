@@ -36,10 +36,10 @@ float lastX = width / 2;
 float lastY = height / 2;
 bool firstMouse = true;
 
-glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+glm::vec3 lightPos(1.0f, 1.0f, 4.0f);
 glm::vec3 sunray = glm::vec3(-0.3f, -1.0f, -0.4f);
 
-bool spot = true;
+bool spot = false;
 bool dir = false;
 bool point = false;
 
@@ -96,18 +96,30 @@ void ProcessInput(GLFWwindow* window) //Input Manager
 		cam.ProcessKeyboard(RIGHT, deltaTime);
 	}
 
-	if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS)
+	//Toggles
+	static bool jLast = false;
+	static bool kLast = false;
+	static bool lLast = false;
+
+	bool j = glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS;
+	bool k = glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS;
+	bool l = glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS;
+
+	if (j && !jLast)
 	{
 		dir = !dir;
 	}
-	if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS)
+	jLast = j;
+	if (k && !kLast)
 	{
 		point = !point;
 	}
-	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS)
+	kLast = k;
+	if (l && !lLast)
 	{
 		spot = !spot;
 	}
+	lLast = l;
 
 	//Exit
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)

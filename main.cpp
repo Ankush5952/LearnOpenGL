@@ -284,7 +284,7 @@ int main()
 		//light object
 		lightShader.use();
 		glBindVertexArray(lightVAO);
-		lightPos = glm::vec3(sin(glfwGetTime()), sin(glfwGetTime()) * cos(glfwGetTime()), cos(glfwGetTime()));
+		//lightPos = glm::vec3(sin(glfwGetTime()), sin(glfwGetTime()) * cos(glfwGetTime()), cos(glfwGetTime()));
 		//sunray = glm::vec3(sin(glfwGetTime()), sunray.y, cos(glfwGetTime()));
 		model = glm::translate(model, lightPos);
 		model = glm::scale(model, glm::vec3(0.2f));
