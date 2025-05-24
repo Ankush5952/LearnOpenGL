@@ -14,6 +14,7 @@ struct Light
 
 	vec3 spotDir;
 	float spotCutoff;
+	float outerCutoff;
 
 	vec3 ambient;
 	vec3 diffuse;
@@ -49,6 +50,8 @@ void main()
 	lightDir = normalize(light.dir - fragPos);
 
 	float theta = dot(lightDir,normalize(-light.spotDir));
+	float epsilon = light.spotCutoff - light.outerCutoff; //E = phi - y
+	float intensity = clamp((theta - light.outerCutoff)/epsilon,0.0,1.0); //I = (o - y)/phi - y = (o - y)/E
 
 	if(theta > light.spotCutoff)
 	{
@@ -58,21 +61,25 @@ void main()
 		//diffuse
 		vec3 norm = normalize(normal);
 		float diff = max(dot(norm,lightDir),0.0f);
-		diffuse = light.diffuse * diff * texture(mat.diffuse,texcoords).rgb * attenuation;
+		diffuse = light.diffuse * diff * texture(mat.diffuse,texcoords).rgb;
 
 		//specular
 		vec3 viewDir = normalize(viewPos - fragPos);
 		vec3 reflectDir = reflect(-lightDir,norm);
 		float spec = pow(max(dot(viewDir,reflectDir),0.0f),mat.shininess);
-		specular = spec * texture(mat.specular,texcoords).rgb * light.specular * attenuation;
+		specular = spec * texture(mat.specular,texcoords).rgb * light.specular;
 
 		//emission
 		float emissionStr = 0.0f;
-		emission = emissionStr * texture(mat.emission,texcoords).rgb * attenuation;
+		emission = emissionStr * texture(mat.emission,texcoords).rgb;
 
 		//attenuation
 		float d = length(light.dir - fragPos);
 		attenuation = 1.0f/(light.Kc + light.Kl*d + light.Kq*d*d);
+
+		diffuse *= attenuation * intensity;
+		specular *= attenuation * intensity;
+		emission *= attenuation;
 
 		vec3 result = (diffuse + ambient + specular + emission) * objClr;
 

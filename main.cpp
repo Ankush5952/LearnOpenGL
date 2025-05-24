@@ -123,7 +123,7 @@ int main()
 
 	shader.use();
 	//light
-	shader.setVec3("light.ambient", glm::vec3(0.1f));
+	shader.setVec3("light.ambient", glm::vec3(0.01f));
 	shader.setVec3("light.diffuse", glm::vec3(0.5f)* lightClr);
 	shader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
 	shader.setFloat("light.Kc", Kc);
@@ -313,6 +313,7 @@ int main()
 		}
 		//model = glm::translate(model, cubePos[0]);
 		shader.setFloat("light.spotCutoff", glm::cos(glm::radians(12.5f)));
+		shader.setFloat("light.outerCutoff", glm::cos(glm::radians(15.0f)));
 		shader.setVec3("light.dir", cam.pos);
 		shader.setVec3("light.spotDir", cam.front);
 		shader.setVec3("light.ambient", glm::vec3(0.2f) * lightClr);
