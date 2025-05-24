@@ -20,7 +20,6 @@ glm::vec3 lightClr = glm::vec3(1.0f);
 
 unsigned int diffuseMap;
 unsigned int specularMap;
-unsigned int emissionMap;
 
 glm::mat4 trans;
 
@@ -37,8 +36,12 @@ float lastX = width / 2;
 float lastY = height / 2;
 bool firstMouse = true;
 
-//glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
-glm::vec3 lightDir(1.0f, 1.0f, 2.0f); 
+glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+glm::vec3 sunray = glm::vec3(-0.3f, -1.0f, -0.4f);
+
+bool spot = true;
+bool dir = false;
+bool point = false;
 
 float Kc = 1.0f;
 float Kl = 0.09f;
@@ -91,6 +94,19 @@ void ProcessInput(GLFWwindow* window) //Input Manager
 	if (glfwGetKey(window,GLFW_KEY_D) == GLFW_PRESS)
 	{
 		cam.ProcessKeyboard(RIGHT, deltaTime);
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS)
+	{
+		dir = !dir;
+	}
+	if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS)
+	{
+		point = !point;
+	}
+	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS)
+	{
+		spot = !spot;
 	}
 
 	//Exit

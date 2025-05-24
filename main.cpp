@@ -115,20 +115,39 @@ int main()
 
 //SHADER
 #pragma region SHADER INIT
-	Shader shader("vertexshader.vs", "fragmentshader.fs");
-	Shader lightShader("light.vs", "light.fs");
+	Shader shader("vertexshader.vert", "fragmentshader.frag");
+	Shader lightShader("light.vert", "light.frag");
 
 	lightShader.use();
 	lightShader.setVec3("lightClr", lightClr);
 
 	shader.use();
-	//light
-	shader.setVec3("light.ambient", glm::vec3(0.01f));
-	shader.setVec3("light.diffuse", glm::vec3(0.5f)* lightClr);
-	shader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
-	shader.setFloat("light.Kc", Kc);
-	shader.setFloat("light.Kl", Kl);
-	shader.setFloat("light.Kq", Kq);
+	//Lights
+	//directional light
+	shader.setVec3("dirLight.ambient", glm::vec3(0.05f)*lightClr);
+	shader.setVec3("dirLight.diffuse", glm::vec3(0.5f)* lightClr);
+	shader.setVec3("dirLight.specular", 1.0f, 1.0f, 1.0f);
+	shader.setFloat("dirLight.Kc", Kc);
+	shader.setFloat("dirLight.Kl", Kl);
+	shader.setFloat("dirLight.Kq", Kq);
+	shader.setVec3("dirLight.dir", sunray);
+	//point light
+	shader.setVec3("pointLight.ambient", glm::vec3(0.05f)*lightClr);
+	shader.setVec3("pointLight.diffuse", glm::vec3(0.5f)* lightClr);
+	shader.setVec3("pointLight.specular", 1.0f, 1.0f, 1.0f);
+	shader.setFloat("pointLight.Kc", Kc);
+	shader.setFloat("pointLight.Kl", Kl);
+	shader.setFloat("pointLight.Kq", Kq);
+	shader.setVec3("pointLight.pos", lightPos);
+	//spot light
+	shader.setVec3("spotLight.ambient", glm::vec3(0.05f)*lightClr);
+	shader.setVec3("spotLight.diffuse", glm::vec3(0.5f)* lightClr);
+	shader.setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
+	shader.setFloat("spotLight.Kc", Kc);
+	shader.setFloat("spotLight.Kl", Kl);
+	shader.setFloat("spotLight.Kq", Kq);
+	shader.setFloat("spotLight.cutoff", cos(glm::radians(12.5f)));
+	shader.setFloat("spotLight.outerCutoff", cos(glm::radians(15.0f)));
 	//material
 	shader.setInt("mat.diffuse", 0);
 	shader.setVec3("mat.specular", 0.5f, 0.5f, 0.5f);
@@ -206,28 +225,9 @@ int main()
 	{
 		std::cout << "FAILED TO LOAD SPECULAR MAP" << "\n";
 	}
-
-	//emission map
-	glGenTextures(1, &emissionMap);
-	glBindTexture(GL_TEXTURE_2D, emissionMap);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); //defining the 2D texture properties for s coordinate
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT); //defining the 2D texture properties for t coordinate
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); //defining the minimization filter method using mipmap
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); //defining the magnification filter method
-	tdata = stbi_load("matrix.jpg", &twidth, &theight, &nchannels, 0);
-	if (tdata)
-	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, twidth, theight, 0, GL_RGB, GL_UNSIGNED_BYTE, tdata);
-		glGenerateMipmap(GL_TEXTURE_2D);
-	}
-	else
-	{
-		std::cout << "FAILED TO LOAD SPECULAR MAP" << "\n";
-	}
 	shader.use();
 	shader.setInt("mat.diffuse", 0);
 	shader.setInt("mat.specular", 1);
-	shader.setInt("mat.emission", 2);
 #pragma endregion
 
 //TRANSFORMATION
@@ -278,26 +278,20 @@ int main()
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, specularMap);
 
-		glActiveTexture(GL_TEXTURE2);
-		glBindTexture(GL_TEXTURE_2D, emissionMap);
-
 		//Drawing : BIND->TRANSFORM->DRAW
 		view = cam.getViewMatrix();
 
 		//light object
-		//lightShader.use();
-		//glBindVertexArray(lightVAO);
-		//model = glm::mat4(1.0f);
-		////lightDir = glm::vec4(sin(glfwGetTime()), sin(glfwGetTime()) * cos(glfwGetTime()), cos(glfwGetTime()), lightDir.w);
-		////lightDir = glm::vec4(sin(glfwGetTime())*3, lightDir.y, cos(glfwGetTime())*3, lightDir.w);
-		////lightClr = glm::vec3(sin(glfwGetTime()), sin(glfwGetTime()) * cos(glfwGetTime()), cos(glfwGetTime()));
-		//model = glm::translate(model, glm::vec3(lightDir));
-		//model = glm::scale(model, glm::vec3(0.2f));
-		//lightShader.setMat4("lightModel", model);
-		//lightShader.setMat4("lightView", view);
-		//lightShader.setMat4("lightProj", proj);
-		//lightShader.setVec3("lightClr", lightClr);
-		//glDrawArrays(GL_TRIANGLES, 0, 36);
+		lightShader.use();
+		glBindVertexArray(lightVAO);
+		lightPos = glm::vec3(sin(glfwGetTime()), sin(glfwGetTime()) * cos(glfwGetTime()), cos(glfwGetTime()));
+		//sunray = glm::vec3(sin(glfwGetTime()), sunray.y, cos(glfwGetTime()));
+		model = glm::translate(model, lightPos);
+		model = glm::scale(model, glm::vec3(0.2f));
+		lightShader.setMat4("lightModel", model);
+		lightShader.setMat4("lightView", view);
+		lightShader.setMat4("lightProj", proj);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		//cube
 		shader.use();
@@ -311,18 +305,16 @@ int main()
 			shader.setMat4("model", model);
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
-		//model = glm::translate(model, cubePos[0]);
-		shader.setFloat("light.spotCutoff", glm::cos(glm::radians(12.5f)));
-		shader.setFloat("light.outerCutoff", glm::cos(glm::radians(15.0f)));
-		shader.setVec3("light.dir", cam.pos);
-		shader.setVec3("light.spotDir", cam.front);
-		shader.setVec3("light.ambient", glm::vec3(0.2f) * lightClr);
-		shader.setVec3("light.diffuse", glm::vec3(0.5f) * lightClr);
-		//shader.setMat4("model", model);
+		shader.setVec3("pointLight.pos", lightPos);
+		shader.setVec3("dirLight.dir", sunray);
+		shader.setBool("dirLight.on", dir);
+		shader.setBool("pointLight.on", point);
+		shader.setBool("spotLight.on", spot);
+		shader.setVec3("spotLight.pos", cam.pos);
+		shader.setVec3("spotLight.dir", cam.front);
 		shader.setVec3("viewPos", cam.pos);
 		shader.setMat4("view", view);
 		shader.setMat4("proj", proj);
-		//glDrawArrays(GL_TRIANGLES, 0, 36);
 		
 
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //Wireframe Mode
