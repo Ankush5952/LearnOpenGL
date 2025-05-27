@@ -8,6 +8,7 @@
 #include<glm/gtc/matrix_transform.hpp>
 #include<glm/gtc/type_ptr.hpp>
 #include"Camera.h"
+#include"Mesh.h"
 
 const unsigned int width = 1600; //Window Width
 const unsigned int height = 900; //Window Height
