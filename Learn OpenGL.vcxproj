@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\Lenovo\Documents\Libs and Includes\Includes;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Lenovo\Documents\Libs and Includes\Includes;C:\Users\Lenovo\Documents\Learn OpenGL\includes;C:\Users\Lenovo\Documents\Learn OpenGL\classes;$(IncludePath)</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);C:\Users\Lenovo\Documents\Libs and Includes\Libs</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -138,23 +138,23 @@
     <ClCompile Include="stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="filesystem.h" />
-    <ClInclude Include="Includes.h" />
-    <ClInclude Include="main.h" />
-    <ClInclude Include="Mesh.h" />
-    <ClInclude Include="Model.h" />
-    <ClInclude Include="Shader.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="configure\root_directory.h.in" />
-    <None Include="fragmentshader.frag" />
-    <None Include="light.frag" />
-    <None Include="light.vert" />
-    <None Include="vertexshader.vert" />
+    <None Include="shaders\fragmentshader.frag" />
+    <None Include="shaders\light.frag" />
+    <None Include="shaders\light.vert" />
+    <None Include="shaders\vertexshader.vert" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="classes\Camera.h" />
+    <ClInclude Include="classes\Mesh.h" />
+    <ClInclude Include="classes\Model.h" />
+    <ClInclude Include="classes\Shader.h" />
+    <ClInclude Include="includes\filesystem.h" />
+    <ClInclude Include="includes\Includes.h" />
+    <ClInclude Include="includes\root_directory.h" />
+    <ClInclude Include="main.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

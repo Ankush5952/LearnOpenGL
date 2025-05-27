@@ -51,7 +51,7 @@ int main()
 
 //SHADERS
 #pragma region SHADER INIT
-	Shader shader("vertexshader.vert", "fragmentshader.frag");
+	Shader shader("shaders/vertexshader.vert", "shaders/fragmentshader.frag");
 #pragma endregion
 
 //COORDINATE TRANSFORMATION MATRICES
