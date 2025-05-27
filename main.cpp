@@ -1,6 +1,5 @@
 #include "main.h"
 
-
 int main()
 {
 //GLFW
@@ -37,202 +36,22 @@ int main()
 	glfwSetCursorPosCallback(window, cursor_callback);
 	glfwSetScrollCallback(window, scroll_callback);
 
+	stbi_set_flip_vertically_on_load(true);
+
 	glEnable(GL_DEPTH_TEST); //prevent z-buffer by enabling depth test
 
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); //trapping cursor within window bounds and making it invisible
 #pragma endregion
 
-//VERTEX DATA
-#pragma region VERTEX DATA
-	//vertex coords = (x,y,z) ; similar to coordinate axis
-	// texcoord = (s,t);
-	// normal = (x,y,z);
-	//cube
-	float v2[] = {
-		//pos                //tex       //normals
-		-0.5, -0.5, -0.5, 0.0f, 0.0f, 0.0f,0.0f,-1.0f,
-		0.5, -0.5, -0.5, 1.0f, 0.0f, 0.0f,0.0f,-1.0f,
-		0.5, 0.5, -0.5, 1.0f, 1.0f, 0.0f,0.0f,-1.0f,
-
-		0.5, 0.5, -0.5, 1.0f, 1.0f, 0.0f,0.0f,-1.0f,
-		-0.5, 0.5, -0.5, 0.0f, 1.0f, 0.0f,0.0f,-1.0f,
-		-0.5, -0.5, -0.5, 0.0f, 0.0f, 0.0f,0.0f,-1.0f,
-
-		-0.5, -0.5, 0.5, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-		0.5, -0.5, 0.5, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-		0.5, 0.5, 0.5, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-
-		0.5, 0.5, 0.5, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-		-0.5, 0.5, 0.5, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-		-0.5, -0.5, 0.5, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-
-		-0.5, 0.5, 0.5, 1.0f, 0.0f,  -1.0f, 0.0f, 0.0f,
-		-0.5, 0.5, -0.5, 1.0f, 1.0f,  -1.0f, 0.0f, 0.0f,
-		-0.5, -0.5, -0.5, 0.0f, 1.0f,  -1.0f, 0.0f, 0.0f,
-
-		-0.5, -0.5, -0.5, 0.0f, 1.0f,  -1.0f, 0.0f, 0.0f,
-		-0.5, -0.5, 0.5, 0.0f, 0.0f,  -1.0f, 0.0f, 0.0f,
-		-0.5, 0.5, 0.5, 1.0f, 0.0f,  -1.0f, 0.0f, 0.0f,
-		
-		0.5, 0.5, 0.5, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-		0.5, 0.5, -0.5, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
-		0.5, -0.5, -0.5, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f,
-
-		0.5, -0.5, -0.5, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f,
-		0.5, -0.5, 0.5, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-		0.5, 0.5, 0.5, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-
-		-0.5, -0.5, -0.5, 0.0f, 1.0f, 0.0f, -1.0f, 0.0f,
-		0.5, -0.5, -0.5, 1.0f, 1.0f, 0.0f, -1.0f, 0.0f,
-		0.5, -0.5, 0.5, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f,
-
-		0.5, -0.5, 0.5, 1.0f, 0.0f, 0.0f, -1.0f, 0.0f,
-		-0.5, -0.5, 0.5, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f,
-		-0.5, -0.5, -0.5, 0.0f, 1.0f, 0.0f, -1.0f, 0.0f,
-
-		-0.5, 0.5, -0.5, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-		0.5, 0.5, -0.5, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-		0.5, 0.5, 0.5, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-
-		0.5, 0.5, 0.5, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-		-0.5, 0.5, 0.5, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-		-0.5, 0.5, -0.5 ,0.0f, 1.0f, 0.0f, 1.0f, 0.0f
-	};
-
-	glm::vec3 cubePos[] = {
-		glm::vec3(0.0f,0.0f,0.0f),
-		glm::vec3(1.0f,0.0f,-0.0f),
-		glm::vec3(-1.0f,0.0f,0.0f),
-		glm::vec3(0.0f,-1.0f,0.0f),
-		glm::vec3(0.0f,1.0f,0.0f),
-		glm::vec3(1.0f,1.0f,0.0f),
-		glm::vec3(1.0f,-1.0f,0.0f),
-		glm::vec3(-1.0f,1.0f,0.0f),
-		glm::vec3(-1.0f,-1.0f,0.0f)
-	};
+//MODEL DATA
+#pragma region MODEL DATA
+	Model bag(FileSystem::getPath("resources/objects/cube/cube.obj"));
+	std::cout << FileSystem::getPath("resources/objects/cube/cube.obj") << "\n"; //debug
 #pragma endregion
 
-//SHADER
+//SHADERS
 #pragma region SHADER INIT
 	Shader shader("vertexshader.vert", "fragmentshader.frag");
-	Shader lightShader("light.vert", "light.frag");
-
-	lightShader.use();
-	lightShader.setVec3("lightClr", lightClr);
-
-	shader.use();
-	//Lights
-	//directional light
-	shader.setVec3("dirLight.ambient", glm::vec3(0.05f)*lightClr);
-	shader.setVec3("dirLight.diffuse", glm::vec3(0.5f)* lightClr);
-	shader.setVec3("dirLight.specular", 1.0f, 1.0f, 1.0f);
-	shader.setFloat("dirLight.Kc", Kc);
-	shader.setFloat("dirLight.Kl", Kl);
-	shader.setFloat("dirLight.Kq", Kq);
-	shader.setVec3("dirLight.dir", sunray);
-	//point light
-	shader.setVec3("pointLight.ambient", glm::vec3(0.05f)*lightClr);
-	shader.setVec3("pointLight.diffuse", glm::vec3(0.5f)* lightClr);
-	shader.setVec3("pointLight.specular", 1.0f, 1.0f, 1.0f);
-	shader.setFloat("pointLight.Kc", Kc);
-	shader.setFloat("pointLight.Kl", Kl);
-	shader.setFloat("pointLight.Kq", Kq);
-	shader.setVec3("pointLight.pos", lightPos);
-	//spot light
-	shader.setVec3("spotLight.ambient", glm::vec3(0.05f)*lightClr);
-	shader.setVec3("spotLight.diffuse", glm::vec3(0.5f)* lightClr);
-	shader.setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
-	shader.setFloat("spotLight.Kc", Kc);
-	shader.setFloat("spotLight.Kl", Kl);
-	shader.setFloat("spotLight.Kq", Kq);
-	shader.setFloat("spotLight.cutoff", cos(glm::radians(12.5f)));
-	shader.setFloat("spotLight.outerCutoff", cos(glm::radians(15.0f)));
-	//material
-	shader.setInt("mat.diffuse", 0);
-	shader.setVec3("mat.specular", 0.5f, 0.5f, 0.5f);
-	shader.setFloat("mat.shininess", 32.0f);
-	//colors
-	shader.setVec3("objClr", glm::vec3(1.0f));
-#pragma endregion
-
-//VERTEX PROCESSING
-#pragma region VERTEX PROCESSING
-
-	glGenVertexArrays(1, &VAO); //Generate Vertex Attribute Arrays
-	glGenBuffers(1, &VBO); //Generate a buffer at VBO's address
-
-	glBindVertexArray(VAO);//bind the vertex attribute objects before binding buffers
-	glBindBuffer(GL_ARRAY_BUFFER, VBO); //Bind VBO to OPENGL's ARRAY buffer 
-	glBufferData(GL_ARRAY_BUFFER, sizeof(v2), v2, GL_STATIC_DRAW); //Copies the vertex data to the buffer's memory
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0); //pos
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3*sizeof(float))); //tex
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(5 * sizeof(float))); //normal
-	glEnableVertexAttribArray(2);
-
-
-	//light VBO
-	glGenVertexArrays(1, &lightVAO);
-	glBindVertexArray(lightVAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(v2), v2, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0); //pos
-	glEnableVertexAttribArray(0);
-
-#pragma endregion
-
-//TEXTURE PROCESSING
-#pragma region TEXTURE PROCESSING
-	//texture coords = (s,t,r) ; for 2D tex = (s,t); s> ,t^
-	int twidth, theight, nchannels;
-	unsigned char* tdata;
-
-	//diffuse map
-	glGenTextures(1, &diffuseMap);
-	glBindTexture(GL_TEXTURE_2D, diffuseMap);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); //defining the 2D texture properties for s coordinate
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT); //defining the 2D texture properties for t coordinate
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); //defining the minimization filter method using mipmap
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); //defining the magnification filter method
-	tdata = stbi_load("container.png", &twidth, &theight, &nchannels, 0);
-	if (tdata)
-	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, twidth, theight, 0, GL_RGBA, GL_UNSIGNED_BYTE, tdata); //generate texture from image
-		glGenerateMipmap(GL_TEXTURE_2D); //generate mipmap
-	}
-	else
-	{
-		std::cout << "FAILED TO LOAD DIFFUSE MAP\n";
-	}
-	stbi_image_free(tdata);
-
-	//specular map
-	glGenTextures(1, &specularMap);
-	glBindTexture(GL_TEXTURE_2D, specularMap);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); //defining the 2D texture properties for s coordinate
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT); //defining the 2D texture properties for t coordinate
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); //defining the minimization filter method using mipmap
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); //defining the magnification filter method
-	tdata = stbi_load("container_specular.png", &twidth, &theight, &nchannels, 0);
-	if (tdata)
-	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, twidth, theight, 0, GL_RGBA, GL_UNSIGNED_BYTE, tdata);
-		glGenerateMipmap(GL_TEXTURE_2D);
-	}
-	else
-	{
-		std::cout << "FAILED TO LOAD SPECULAR MAP" << "\n";
-	}
-	shader.use();
-	shader.setInt("mat.diffuse", 0);
-	shader.setInt("mat.specular", 1);
-#pragma endregion
-
-//TRANSFORMATION
-#pragma region STATIC TRANSFORM
-	trans = glm::mat4(1.0f);
-	unsigned int transformID = glGetUniformLocation(shader.ID, "transform");
 #pragma endregion
 
 //COORDINATE TRANSFORMATION MATRICES
@@ -245,11 +64,6 @@ int main()
 
 	//projection matrix
 	proj = glm::perspective(glm::radians(cam.zoom), (float)width / height, 0.1f, 100.0f); //perspective projection for realistic 3D
-#pragma endregion
-
-//CAMERA
-#pragma region CAMERA
-
 #pragma endregion
 
 //RENDER LOOP
@@ -267,54 +81,24 @@ int main()
 		proj = glm::perspective(glm::radians(cam.zoom), (float)width / height, 0.1f, 100.0f);
 
 		//Rendering
-		glClearColor(0.0f, 0.0f, 0.0f, 1); //bg clr
+		glClearColor(0.2f, 0.2f, 0.2f, 1); //bg clr
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		//Textures
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, diffuseMap);
-
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, specularMap);
+		
 
 		//Drawing : BIND->TRANSFORM->DRAW
 		view = cam.getViewMatrix();
 
-		//light object
-		lightShader.use();
-		glBindVertexArray(lightVAO);
-		//lightPos = glm::vec3(sin(glfwGetTime()), sin(glfwGetTime()) * cos(glfwGetTime()), cos(glfwGetTime()));
-		//sunray = glm::vec3(sin(glfwGetTime()), sunray.y, cos(glfwGetTime()));
-		model = glm::translate(model, lightPos);
-		model = glm::scale(model, glm::vec3(0.2f));
-		lightShader.setMat4("lightModel", model);
-		lightShader.setMat4("lightView", view);
-		lightShader.setMat4("lightProj", proj);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
-
-		//cube
 		shader.use();
-		glBindVertexArray(VAO);
-		for (int i = 0; i < 9; i++)
-		{
-			model = glm::mat4(1.0f);
-			model = glm::translate(model, cubePos[i]);
-			float angle = 20 + i;
-			//model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.0f, -1.0f));
-			shader.setMat4("model", model);
-			glDrawArrays(GL_TRIANGLES, 0, 36);
-		}
-		shader.setVec3("pointLight.pos", lightPos);
-		shader.setVec3("dirLight.dir", sunray);
-		shader.setBool("dirLight.on", dir);
-		shader.setBool("pointLight.on", point);
-		shader.setBool("spotLight.on", spot);
-		shader.setVec3("spotLight.pos", cam.pos);
-		shader.setVec3("spotLight.dir", cam.front);
-		shader.setVec3("viewPos", cam.pos);
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.0f));
+		shader.setMat4("model", model);
 		shader.setMat4("view", view);
 		shader.setMat4("proj", proj);
-		
+
+		bag.Draw(shader);
 
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //Wireframe Mode
 
@@ -326,10 +110,6 @@ int main()
 
 //END
 #pragma region CLEAR MEMORY
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteVertexArrays(1, &lightVAO);
-	glDeleteBuffers(1, &VBO);
-
 	glfwTerminate(); //Clean up GLFW from memory after closing window
 #pragma endregion
 	return 0;
