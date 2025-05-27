@@ -28,7 +28,7 @@ public:
 	std::vector<Texture> textures;
 	unsigned int VAO;
 
-	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures)
+	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures={})
 	{
 		this->vertices = vertices;
 		this->indices = indices;
@@ -61,12 +61,12 @@ public:
 			glBindTexture(GL_TEXTURE_2D, textures[i].ID);
 		}
 
+		glActiveTexture(GL_TEXTURE0);
+
 		//draw mesh
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
-
-		glActiveTexture(GL_TEXTURE0);
 	}
 
 private:
@@ -83,8 +83,8 @@ private:
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
 		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
 
-		glBindBuffer(GL_ARRAY_BUFFER, EBO);
-		glBufferData(GL_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
 
 		//vertex pos
 		glEnableVertexAttribArray(0);

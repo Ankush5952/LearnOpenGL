@@ -74,9 +74,6 @@ Mesh processMesh(aiMesh* mesh, const aiScene* scene)
 		{  
 			vertex.texCoord = glm::vec2(0.0f, 0.0f);  
 		}  
-		std::cout << "position " << i + 1 << " = " << vertex.pos.x << " " << vertex.pos.y << " " << vertex.pos.z << "\n";
-		std::cout << "normal " << i + 1 << " = " << vertex.normal.x << " " << vertex.normal.y << " " << vertex.normal.z << "\n";
-		std::cout << "texcoord " << i + 1 << " = " << vertex.texCoord.x << " " << vertex.texCoord.y << "\n";
 		vertices.push_back(vertex);  
 	}  
 
@@ -86,7 +83,6 @@ Mesh processMesh(aiMesh* mesh, const aiScene* scene)
 		aiFace face = mesh->mFaces[i];  
 		for (unsigned int j = 0; j < face.mNumIndices; j++)  
 		{  
-			std::cout << "indice " << face.mNumIndices*i + j + 1 << " = " << face.mIndices[j] << "\n";
 			indices.push_back(face.mIndices[j]);  
 		} 
 	}  

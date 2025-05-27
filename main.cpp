@@ -45,8 +45,20 @@ int main()
 
 //MODEL DATA
 #pragma region MODEL DATA
-	Model bag(FileSystem::getPath("resources/objects/cube/cube.obj"));
-	std::cout << FileSystem::getPath("resources/objects/cube/cube.obj") << "\n"; //debug
+	Model bag(FileSystem::getPath("resources/objects/bag/backpack.obj"));
+#pragma endregion
+
+//DEMO ITEM
+#pragma region DEMO_MESH
+	std::vector<Vertex> vertices = {
+		Vertex(glm::vec3(-0.3f,-0.3f,0.0f), glm::vec3(0.0f,0.0f,1.0f), glm::vec2(0.0f,0.0f)),
+		Vertex(glm::vec3(0.3f,-0.3f,0.0f), glm::vec3(0.0f,0.0f,1.0f), glm::vec2(0.0f,0.0f)),
+		Vertex(glm::vec3(0.0f,0.3f,0.0f), glm::vec3(0.0f,0.0f,1.0f), glm::vec2(0.0f,0.0f)),
+	};
+	std::vector<unsigned int> indices = { 0,1,2 };
+	std::vector<Texture> textures;
+
+	Mesh m = Mesh(vertices, indices, textures);
 #pragma endregion
 
 //SHADERS
@@ -66,7 +78,9 @@ int main()
 	proj = glm::perspective(glm::radians(cam.zoom), (float)width / height, 0.1f, 100.0f); //perspective projection for realistic 3D
 #pragma endregion
 
+	
 //RENDER LOOP
+	glDisable(GL_CULL_FACE);
 	while (!glfwWindowShouldClose(window)) //Check for close window call
 	{
 		//Time
@@ -97,6 +111,8 @@ int main()
 		shader.setMat4("model", model);
 		shader.setMat4("view", view);
 		shader.setMat4("proj", proj);
+
+		//m.Draw(shader);
 
 		bag.Draw(shader);
 
