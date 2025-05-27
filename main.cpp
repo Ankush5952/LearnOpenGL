@@ -11,7 +11,7 @@ int main()
 #pragma endregion
 	
 //WINDOW INTITALIZATION
-#pragma region MyRegion
+#pragma region WINDOW_INIT
 	GLFWwindow* window = glfwCreateWindow(width, height, "OPENGL DEMO", NULL, NULL); //Create window
 	if (window == NULL) //NULL check
 	{
@@ -80,7 +80,6 @@ int main()
 
 	
 //RENDER LOOP
-	glDisable(GL_CULL_FACE);
 	while (!glfwWindowShouldClose(window)) //Check for close window call
 	{
 		//Time
