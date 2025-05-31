@@ -39,6 +39,10 @@ int main()
 	stbi_set_flip_vertically_on_load(true);
 
 	glEnable(GL_DEPTH_TEST); //prevent z-buffer by enabling depth test
+	glDepthFunc(GL_LESS);
+	glEnable(GL_STENCIL_TEST);
+	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED); //trapping cursor within window bounds and making it invisible
 #pragma endregion
@@ -64,6 +68,7 @@ int main()
 //SHADERS
 #pragma region SHADER INIT
 	Shader shader("shaders/vertexshader.vert", "shaders/fragmentshader.frag");
+	Shader border("shaders/vertexshader.vert", "shaders/border.frag");
 #pragma endregion
 
 //COORDINATE TRANSFORMATION MATRICES
@@ -95,14 +100,13 @@ int main()
 
 		//Rendering
 		glClearColor(0.2f, 0.2f, 0.2f, 1); //bg clr
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		//Textures
-		
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 		//Drawing : BIND->TRANSFORM->DRAW
 		view = cam.getViewMatrix();
 
+		glStencilFunc(GL_ALWAYS, 1, 0xFF);
+		glStencilMask(0xFF);
 		shader.use();
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
@@ -111,9 +115,21 @@ int main()
 		shader.setMat4("view", view);
 		shader.setMat4("proj", proj);
 
-		//m.Draw(shader);
-
 		bag.Draw(shader);
+
+		glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+		glStencilMask(0x00);
+		glDisable(GL_DEPTH_TEST);
+		border.use();
+		model = glm::mat4(1.0f);
+		model = glm::scale(model,glm::vec3(1.02f));
+		border.setMat4("model", model);
+		border.setMat4("view", view);
+		border.setMat4("proj", proj);
+		bag.Draw(border);
+		glStencilMask(0xFF);
+		glStencilFunc(GL_ALWAYS, 0, 0xFF);
+		glEnable(GL_DEPTH_TEST);
 
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //Wireframe Mode
 
