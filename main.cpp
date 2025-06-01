@@ -82,7 +82,6 @@ int main()
 	//projection matrix
 	proj = glm::perspective(glm::radians(cam.zoom), (float)width / height, 0.1f, 100.0f); //perspective projection for realistic 3D
 #pragma endregion
-
 	
 //RENDER LOOP
 	while (!glfwWindowShouldClose(window)) //Check for close window call
@@ -122,7 +121,7 @@ int main()
 		glDisable(GL_DEPTH_TEST);
 		border.use();
 		model = glm::mat4(1.0f);
-		model = glm::scale(model,glm::vec3(1.02f));
+		model = glm::scale(model,glm::vec3(1.01f));
 		border.setMat4("model", model);
 		border.setMat4("view", view);
 		border.setMat4("proj", proj);
